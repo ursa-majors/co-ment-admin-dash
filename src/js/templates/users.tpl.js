@@ -1,4 +1,4 @@
-import { html } from '../utils';
+import { html } from '../utils/html';
 
 const usersTpl = (data) => html`
     <h1>Users</h1>
