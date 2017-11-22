@@ -2,7 +2,7 @@
     Main bootstrap module
 */
 
-import { $on }    from './utils';
+import { $on }    from './utils/dom_events';
 import   Router   from './router';
 import { routes } from './routes';
 
