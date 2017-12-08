@@ -14,7 +14,7 @@ const path   = require('path');
 //
 function serveClient(req, res) {
     res.status(200)
-        .sendFile(path.join(__dirname, '../client/build/index.html'));
+        .sendFile(path.join(__dirname, '../client/dist/index.html'));
 }
 
 
