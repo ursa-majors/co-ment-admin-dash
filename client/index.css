@@ -1,0 +1,12 @@
+body {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+    background: #e6e3e3;
+    font-size: 12px;
+}
+
+h1 {
+    font-size: 2em;
+    font-weight: 100;
+}
