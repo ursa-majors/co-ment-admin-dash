@@ -1,6 +1,6 @@
-# co-ment-dash
+# co-ment-admin-dash
 
-> Admin dash for co/ment
+> co/ment admin dash
 
 ## Build Setup
 
