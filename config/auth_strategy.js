@@ -22,7 +22,7 @@ module.exports = function (LocalStrategy, User) {
                             message: 'Invalid User Name'
                         });
                     }
-                    
+
                     if (!user.validatePassword(password)) {
                         return done(null, false, {
                             message: 'Invalid Password'
@@ -34,7 +34,7 @@ module.exports = function (LocalStrategy, User) {
                             message: 'Administrators only'
                         });
                     }
-                    
+
                     // success
                     return done(null, user);
 

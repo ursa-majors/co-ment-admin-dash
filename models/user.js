@@ -54,7 +54,7 @@ const userSchema = new mongoose.Schema({
         type     : String,
         trim     : true
     },
-  
+
     github    : {
         type     : String,
         trim     : true
@@ -90,7 +90,7 @@ const userSchema = new mongoose.Schema({
         ts     : String,
         exp    : String
     },
-  
+
     passwordResetKey: {
         key : String,
         ts  : String,
@@ -112,14 +112,14 @@ const userSchema = new mongoose.Schema({
         type     : String,
         trim     : true
     },
-  
+
     likedPosts : [String],
-  
+
     contactMeta : {
         unSubbed           : { type : Boolean, default: false },
         alreadyContacted   : { type : Boolean, default: false }
     },
-  
+
     engagementMeta : {
         addPostReminder    : { type : Date },
         addProfileReminder : { type : Date }
@@ -127,7 +127,12 @@ const userSchema = new mongoose.Schema({
 
     hash       : String,
 
-    salt       : String
+    salt       : String,
+
+    admin      : {
+        type     : Boolean,
+        default  : false
+    }
 
 },
 {
@@ -176,4 +181,3 @@ userSchema.methods.generateJWT = function () {
 /* ================================ EXPORT ================================= */
 
 module.exports = mongoose.model('User', userSchema);
-
