@@ -1,9 +1,10 @@
+
 body {
-    margin: 0;
+    background: #e6e3e3;
     box-sizing: border-box;
     font-family: sans-serif;
-    background: #e6e3e3;
     font-size: 12px;
+    margin: 0;
 }
 
 h1 {
