@@ -11,4 +11,7 @@
 </script>
 
 <style>
+    .dash {
+        height: 100%;
+    }
 </style>

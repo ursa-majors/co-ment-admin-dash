@@ -3,15 +3,17 @@
         <ul class="dash-nav-links">
             <div>
                 <li v-for="(link, index) in nav_links">
-                    <a :href="`#/${link}`" :title="link">
+                    <a :href="`#/${link}`">
                         <img :src="require(`../assets/${link}.svg`)" :alt="link">
+                        <p>{{link}}</p>
                     </a>
                 </li>
 
             </div>
             <li>
-                <a href="#/logout" title="Logout">
-                    <img class="last" src="../assets/logout.svg" alt="Logout">
+                <a href="#/logout" class="last">
+                    <img src="../assets/logout.svg" alt="Logout">
+                    <p>Logout</p>
                 </a>
             </li>
         </ul>
@@ -35,7 +37,6 @@
         flex: 0 0 50px;
         background: #444;
         color: white;
-        padding: 0;
         box-shadow: 1px 1px 4px #444;
     }
 
@@ -46,39 +47,56 @@
         height: 100%;
         display: flex;
         flex-flow: column nowrap;
+        justify-content: space-between;
     }
 
-    .dash-nav ul div {
-        flex: 1;
-    }
-
-    .dash-nav-links img {
+    .dash-nav-links a {
         box-sizing: border-box;
-        width: 100%;
+        display: block;
         margin-bottom: 1.5em;
-        padding: .25em;
         border: 4px solid transparent;
-        vertical-align:top;
     }
 
-    .dash-nav-links img:hover {
+    .dash-nav-links a:hover,
+    .dash-nav-links a:active {
         border: 4px solid #3ec1c1;
     }
 
-    .dash-nav-links img.first {
-        margin-top: 0;
+    .dash-nav-links a img {
+        display: block;
+        width: 100%;
     }
 
-    .dash-nav-links img.last {
+    .dash-nav-links a p {
+        background: #333;
+        border-radius: .2em;
+        color: white;
+        display: block;
+        letter-spacing: 2px;
+        font-weight: bold;
+        left: 55px;
+        margin-top: -25px;
+        opacity: 0;
+        padding: .4em .75em;
+        position: absolute;
+        transition: visibility 0s, opacity 0.2s linear;
+        visibility: hidden;
+    }
+
+    .dash-nav-links a:hover p {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .dash-nav-links a.last {
         margin-bottom: 0;
     }
 
-    .dash-nav-links img.last:hover {
-        margin-bottom: 0;
+    .dash-nav-links a.last:hover {
         border: 4px solid #cb4747;
     }
 
-    .dash-nav-links img.active {
+    .dash-nav-links a.active {
         border: 4px solid #3ec1c1;
     }
 </style>
