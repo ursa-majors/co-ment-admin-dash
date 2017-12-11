@@ -26,15 +26,15 @@
             };
         },
         methods: {
-            getSomeStuff() {
+            getProfiles() {
                 let token = LS.getData('auth_token');
                 ProfileService.getProfiles(token)
-                    .then( docs => this.documents = docs.data)
+                    .then( docs => this.documents = docs)
                     .catch( err => console.log(err) );
             }
         },
         mounted() {
-            this.getSomeStuff();
+            this.getProfiles();
         }
     };
 </script>

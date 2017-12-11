@@ -3,24 +3,26 @@
         <ul class="dash-nav-links">
             <div>
                 <li v-for="(link, index) in nav_links">
-                    <a :href="`#/${link}`">
+                    <button @click="handleLink(link)">
                         <img :src="require(`../assets/${link}.svg`)" :alt="link">
                         <p>{{link}}</p>
-                    </a>
+                    </button>
                 </li>
 
             </div>
             <li>
-                <a href="#/logout" class="last">
+                <button @click="handleLogout()" class="last">
                     <img src="../assets/logout.svg" alt="Logout">
                     <p>Logout</p>
-                </a>
+                </button>
             </li>
         </ul>
     </nav>
 </template>
 
 <script>
+    import { logout } from '@/utils/auth';
+
     export default {
         data() {
             return {
@@ -28,13 +30,21 @@
                     'users', 'posts', 'connections', 'conversations', 'logs'
                 ]
             };
+        },
+        methods: {
+            handleLink(link) {
+                alert(link);
+            },
+            handleLogout() {
+                logout();
+            }
         }
     }
 </script>
 
 <style lang="css">
     .dash-nav {
-        flex: 0 0 50px;
+        flex: 0 0 40px;
         background: #444;
         color: white;
         box-shadow: 1px 1px 4px #444;
@@ -50,31 +60,34 @@
         justify-content: space-between;
     }
 
-    .dash-nav-links a {
+    .dash-nav-links button {
+        background: transparent;
+        width: 100%;
+        padding: 0;
         box-sizing: border-box;
         display: block;
         margin-bottom: 1.5em;
         border: 4px solid transparent;
     }
 
-    .dash-nav-links a:hover,
-    .dash-nav-links a:active {
+    .dash-nav-links button:hover,
+    .dash-nav-links button:active {
+        cursor: pointer;
         border: 4px solid #3ec1c1;
     }
 
-    .dash-nav-links a img {
+    .dash-nav-links button img {
         display: block;
         width: 100%;
     }
 
-    .dash-nav-links a p {
-        background: #333;
+    .dash-nav-links button p {
+        background: #444;
         border-radius: .2em;
         color: white;
         display: block;
         letter-spacing: 2px;
-        font-weight: bold;
-        left: 55px;
+        left: 45px;
         margin-top: -25px;
         opacity: 0;
         padding: .4em .75em;
@@ -83,20 +96,20 @@
         visibility: hidden;
     }
 
-    .dash-nav-links a:hover p {
+    .dash-nav-links button:hover p {
         visibility: visible;
         opacity: 1;
     }
 
-    .dash-nav-links a.last {
+    .dash-nav-links button.last {
         margin-bottom: 0;
     }
 
-    .dash-nav-links a.last:hover {
+    .dash-nav-links button.last:hover {
         border: 4px solid #cb4747;
     }
 
-    .dash-nav-links a.active {
+    .dash-nav-links button.active {
         border: 4px solid #3ec1c1;
     }
 </style>

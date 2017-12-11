@@ -1,18 +1,22 @@
-// hits our 'auth/login' endpoint
+// hits 'auth/login' endpoint
 
 import Api from '@/services/Api';
 
 export default {
 
-    /** User login method
-     *  How to use:
-     *      AuthenticationService.login({
-     *          username: 'dummy@hahaha.com',
-     *          password: '12345'
-     *      });
+    /** LOGIN
+     *  @param     {Object}   creds   { username: String, password: String }
+     *  @returns   {Promise}          Promise obj + payload: profile + JWT
+     *  Example:
+     *    AuthenticationService.login({
+     *        username: 'dummy@hahaha.com',
+     *        password: '12345'
+     *    });
     */
-    login (credentials) {
-        return Api().post('auth/login', credentials);
+    login (creds) {
+        return Api()
+            .post( 'auth/login', creds )
+            .then( response => response.data );
     }
 
 };
