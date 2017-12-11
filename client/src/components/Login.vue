@@ -6,12 +6,12 @@
                 type="text"
                 name="username"
                 placeholder="username"
-                v-model="username" />
+                v-model="username">
             <input
                 type="password"
                 name="password"
                 placeholder="password"
-                v-model="password" />
+                v-model="password">
             <button
                 type="button"
                 @click="login">
@@ -40,7 +40,7 @@
                     password: this.password
                 })
                 .then( response => {
-                    LS.setData('auth_token', response.data.token);
+                    LS.setData('auth_token', response.token);
                     this.$router.push('dash');
                 })
                 .catch( err => console.log(err) );

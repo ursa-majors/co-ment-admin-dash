@@ -5,14 +5,7 @@ import Dash   from '@/components/Dash';
 
 Vue.use(Router);
 
-const checkAuth = (to, from, next) => {
-    console.log('CHECK AUTH HERE!');
-    console.log(to);
-    console.log(from);
-    next();
-};
-
-export default new Router({
+const router = new Router({
     routes: [
         {
             path: '/',
@@ -22,8 +15,16 @@ export default new Router({
         {
             path: '/dash',
             name: 'Dash',
-            component: Dash,
-            beforeEnter: checkAuth
+            component: Dash
         }
   ]
 });
+
+// router.beforeEach( (to, from, next) => {
+//     console.log('CHECK AUTH HERE!');
+//     console.log('to:', to);
+//     console.log('from:', from);
+//     next();
+// });
+
+export default router;
