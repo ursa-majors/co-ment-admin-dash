@@ -86,9 +86,11 @@
         border-radius: .2em;
         color: white;
         display: block;
+        height: 20px;
         letter-spacing: 2px;
         left: 45px;
-        margin-top: -25px;
+        line-height: 1.3em;
+        margin-top: -31px;
         opacity: 0;
         padding: .4em .75em;
         position: absolute;
