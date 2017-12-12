@@ -10,11 +10,11 @@
     }
 </script>
 
-<style lang="css">
+<style scoped lang="css">
     footer {
         background: #444;
         box-sizing: border-box;
-        color: white;
+        color: #3ec1c1;
         display: flex;
         justify-content: flex-end;
         padding: .35em;

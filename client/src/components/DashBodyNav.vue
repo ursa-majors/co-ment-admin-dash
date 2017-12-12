@@ -94,6 +94,7 @@
         opacity: 0;
         padding: .4em .75em;
         position: absolute;
+        text-transform: capitalize;
         transition: visibility 0s, opacity 0.2s linear;
         visibility: hidden;
     }

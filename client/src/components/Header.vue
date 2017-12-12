@@ -11,11 +11,11 @@
     }
 </script>
 
-<style lang="css">
+<style scoped lang="css" >
     #Header {
         background: #444;
         box-sizing: border-box;
-        color: white;
+        color: #3ec1c1;
         display: flex;
         font-style: italic;
         justify-content: space-between;
