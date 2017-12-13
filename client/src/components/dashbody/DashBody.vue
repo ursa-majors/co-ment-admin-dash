@@ -1,25 +1,19 @@
 <template lang="html">
     <div class="dash-body">
         <DashBodyNav />
-        <DashBodyList v-bind:documents="documents" />
-        <DashBodyDetail />
+        <router-view/>
     </section>
 </div>
 </template>
 
 <script>
     import DashBodyNav    from './DashBodyNav.vue';
-    import DashBodyList   from './DashBodyList.vue';
-    import DashBodyDetail from './DashBodyDetail.vue';
 
     export default {
         name: 'DashBody',
         components: {
-            DashBodyNav,
-            DashBodyList,
-            DashBodyDetail
-        },
-        props: ['documents']
+            DashBodyNav
+        }
     }
 </script>
 

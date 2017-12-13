@@ -1,7 +1,7 @@
 <template>
     <div id="app" class="dash">
         <DashHeader />
-        <DashBody v-bind:documents="documents" />
+        <DashBody />
         <DashFooter />
     </div>
 </template>
@@ -9,9 +9,7 @@
 <script>
     import DashHeader     from '@/components/Header.vue';
     import DashFooter     from '@/components/Footer.vue';
-    import DashBody       from '@/components/DashBody.vue';
-    import LS             from '@/utils/localStorage';
-    import ProfileService from '@/services/ProfileService';
+    import DashBody       from '@/components/dashbody/DashBody.vue';
 
     export default {
         name: 'Dash',
@@ -19,22 +17,6 @@
             DashHeader,
             DashBody,
             DashFooter
-        },
-        data() {
-            return {
-                documents: []
-            };
-        },
-        methods: {
-            getProfiles() {
-                let token = LS.getData('auth_token');
-                ProfileService.getProfiles(token)
-                    .then( docs => this.documents = docs)
-                    .catch( err => console.log(err) );
-            }
-        },
-        mounted() {
-            this.getProfiles();
         }
     };
 </script>

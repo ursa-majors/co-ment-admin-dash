@@ -4,14 +4,14 @@
             <div>
                 <li v-for="(link, index) in nav_links">
                     <button @click="handleLink(link)">
-                        <img :src="require(`../assets/${link}.svg`)" :alt="link">
+                        <img :src="require(`@/assets/${link}.svg`)" :alt="link">
                         <p>{{link}}</p>
                     </button>
                 </li>
             </div>
             <li>
                 <button @click="handleLogout()" class="last">
-                    <img src="../assets/logout.svg" alt="Logout">
+                    <img src="@/assets/logout.svg" alt="Logout">
                     <p>Logout</p>
                 </button>
             </li>
@@ -36,7 +36,7 @@ export default {
          *  @returns   {null}
         */
         handleLink(link) {
-            alert(link);
+            this.$router.push({ path: `/dash/${link}` });
         },
 
         /** HANDLE LOGOUT
