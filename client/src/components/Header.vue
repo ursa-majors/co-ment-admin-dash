@@ -20,7 +20,7 @@
         font-style: italic;
         justify-content: space-between;
         padding: .35em;
-        padding-left: 50px;
+        padding-left: 40px;
         box-shadow: 1px 1px 8px #444;
     }
 
