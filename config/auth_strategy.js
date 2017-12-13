@@ -19,13 +19,13 @@ module.exports = function (LocalStrategy, User) {
 
                     if (!user) {
                         return done(null, false, {
-                            message: 'Invalid User Name'
+                            message: 'Invalid Credentials'
                         });
                     }
 
                     if (!user.validatePassword(password)) {
                         return done(null, false, {
-                            message: 'Invalid Password'
+                            message: 'Invalid Credentials'
                         });
                     }
 
