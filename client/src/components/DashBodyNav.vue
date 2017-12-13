@@ -8,7 +8,6 @@
                         <p>{{link}}</p>
                     </button>
                 </li>
-
             </div>
             <li>
                 <button @click="handleLogout()" class="last">
