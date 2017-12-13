@@ -6,7 +6,7 @@ const prodUrl = 'https://co-ment-admin-dash.glitch.me/';
 const APIurl  = isDev ? devUrl : prodUrl;
 
 export default () => {
-    return axios.create({
-        baseURL: APIurl
-    });
+  return axios.create({
+    baseURL: APIurl
+  });
 };
