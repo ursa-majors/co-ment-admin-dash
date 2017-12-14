@@ -7,7 +7,7 @@
 
 <script>
     export default {
-        name: 'Header'
+        name: 'DashHeader'
     }
 </script>
 
@@ -15,7 +15,7 @@
     #Header {
         background: #444;
         box-sizing: border-box;
-        color: #3ec1c1;
+        color: #bbb;
         display: flex;
         font-style: italic;
         justify-content: space-between;

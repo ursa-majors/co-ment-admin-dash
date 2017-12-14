@@ -7,7 +7,6 @@
             name="username"
             placeholder="username"
             @keyup="clearError"
-            @keyup.enter="login"
             v-model="username">
         <input
             type="password"

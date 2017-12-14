@@ -11,7 +11,7 @@
             </div>
             <li>
                 <button @click="handleLogout()" class="last">
-                    <img src="@/assets/logout.svg" alt="Logout">
+                    <img src="../../assets/logout.svg" alt="Logout">
                     <p>Logout</p>
                 </button>
             </li>

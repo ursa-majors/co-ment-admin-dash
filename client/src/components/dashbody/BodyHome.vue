@@ -1,31 +1,25 @@
 <template lang="html">
-<p>ello?</p>
+<div class="quote">
+    <p>"It is impossible for a man to learn what he thinks he already knows." - Epictetus</p>
+</div>
 </template>
 
 <script>
-import LS             from '@/utils/localStorage';
-import ProfileService from '@/services/ProfileService';
-
 export default {
-    name: 'BodyHome',
-    data() {
-        return {
-            documents: []
-        };
-    },
-    methods: {
-        getProfiles() {
-            let token = LS.getData('auth_token');
-            ProfileService.getProfiles(token)
-                .then( docs => this.documents = docs)
-                .catch( err => console.log(err) );
-        }
-    },
-    mounted() {
-        this.getProfiles();
-    }
+    name: 'BodyHome'
 }
 </script>
 
-<style lang="css">
+<style scoped lang="css">
+.quote {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    width: 100%;
+}
+
+.quote p {
+    text-align: center;
+    color: #999;
+}
 </style>

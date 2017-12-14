@@ -1,9 +1,13 @@
-import Vue    from 'vue';
-import Router from 'vue-router';
-import Login  from '@/components/Login';
-import Dash   from '@/components/Dash';
-import BodyHome from '@/components/dashbody/BodyHome';
-import Users    from '@/components/dashbody/views/Users';
+import Vue           from 'vue';
+import Router        from 'vue-router';
+import Login         from '@/components/Login';
+import Dash          from '@/components/Dash';
+import BodyHome      from '@/components/dashbody/BodyHome';
+import Users         from '@/components/dashbody/views/Users';
+import Posts         from '@/components/dashbody/views/Posts';
+import Connections   from '@/components/dashbody/views/Connections';
+import Conversations from '@/components/dashbody/views/Conversations';
+import Logs          from '@/components/dashbody/views/Logs';
 
 Vue.use(Router);
 
@@ -27,22 +31,22 @@ const router = new Router({
                     path: 'users',
                     component: Users
                 },
-                // {
-                //     path: 'posts',
-                //     component: Posts
-                // },
-                // {
-                //     path: 'connections',
-                //     component: Connections
-                // },
-                // {
-                //     path: 'conversations',
-                //     component: Conversations
-                // },
-                // {
-                //     path: 'logs',
-                //     component: Logs
-                // }
+                {
+                    path: 'posts',
+                    component: Posts,
+                },
+                {
+                    path: 'connections',
+                    component: Connections,
+                },
+                {
+                    path: 'conversations',
+                    component: Conversations,
+                },
+                {
+                    path: 'logs',
+                    component: Logs,
+                }
             ]
         }
   ]

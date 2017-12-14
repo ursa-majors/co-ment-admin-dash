@@ -6,7 +6,7 @@
 
 <script>
     export default {
-        name: 'Header'
+        name: 'DashFooter'
     }
 </script>
 
@@ -14,7 +14,7 @@
     footer {
         background: #444;
         box-sizing: border-box;
-        color: #3ec1c1;
+        color: #999;
         display: flex;
         justify-content: flex-end;
         padding: .35em;

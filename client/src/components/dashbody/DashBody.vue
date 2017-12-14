@@ -2,12 +2,12 @@
     <div class="dash-body">
         <DashBodyNav />
         <router-view/>
-    </section>
+    </div>
 </div>
 </template>
 
 <script>
-    import DashBodyNav    from './DashBodyNav.vue';
+    import DashBodyNav from './DashBodyNav.vue';
 
     export default {
         name: 'DashBody',
@@ -19,10 +19,9 @@
 
 <style lang="css">
     .dash-body {
-        /*position: static;*/
-        height: 0;
+        border-right: .35em solid #444;
         display: flex;
         flex: 1 1 auto;
-        border-right: .35em solid #444;
+        height: 0;
     }
 </style>
