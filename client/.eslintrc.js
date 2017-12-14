@@ -34,6 +34,13 @@ module.exports = {
             'VariableDeclarator': true
         }}
     ],
+    'key-spacing': ['error', {
+        "align": {
+            "beforeColon": true,
+            "afterColon": true,
+            "on": "colon"
+        }
+    }],
     "comma-dangle": ["error", {
         "arrays": "never",
         "objects": "never",

@@ -14,38 +14,37 @@ Vue.use(Router);
 const router = new Router({
     routes: [
         {
-            path: '/',
-            name: 'login',
-            component: Login
+            path      : '/',
+            name      : 'login',
+            component : Login
         },
         {
-            path: '/dash',
-            // name: 'Dash',
-            component: Dash,
-            children: [
+            path      : '/dash',
+            component : Dash,
+            children  : [
                 {
-                    path: '',
-                    component: BodyHome
+                    path      : '',
+                    component : BodyHome
                 },
                 {
-                    path: 'users',
-                    component: Users
+                    path      : 'users',
+                    component : Users
                 },
                 {
-                    path: 'posts',
-                    component: Posts
+                    path      : 'posts',
+                    component : Posts
                 },
                 {
-                    path: 'connections',
-                    component: Connections
+                    path      : 'connections',
+                    component : Connections
                 },
                 {
-                    path: 'conversations',
-                    component: Conversations
+                    path      : 'conversations',
+                    component : Conversations
                 },
                 {
-                    path: 'logs',
-                    component: Logs
+                    path      : 'logs',
+                    component : Logs
                 }
             ]
         }

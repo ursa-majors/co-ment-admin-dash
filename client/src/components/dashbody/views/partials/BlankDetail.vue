@@ -4,8 +4,8 @@
 
 <script>
 export default {
-    name: 'BlankDetail'
-}
+    name : 'BlankDetail'
+};
 </script>
 
 <style scoped lang="css">

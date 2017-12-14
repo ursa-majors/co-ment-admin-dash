@@ -50,11 +50,13 @@ export default {
                 username : this.username,
                 password : this.password
             })
-            .then(response => {
+            .then((response) => {
                 LS.setData('auth_token', response.token);
                 this.$router.push('dash');
             })
-            .catch(err => this.error = err.response.data.message);
+            .catch((err) => {
+                this.error = err.response.data.message;
+            });
         },
 
         /** CLEAR ERROR

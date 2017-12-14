@@ -12,20 +12,20 @@ import LS              from '@/utils/localStorage';
 import { getProfiles } from '@/services/ProfileService';
 
 export default {
-    name: 'Users',
-    components: {
+    name       : 'Users',
+    components : {
         UsersList,
         UserDetail
     },
     data() {
         return {
-            users: [],
-            userId: ''
+            users  : [],
+            userId : ''
         };
     },
     computed: {
-        user: function() {
-            return this.users.filter( el => el._id === this.userId)[0];
+        user: function user() {
+            return this.users.filter(el => el._id === this.userId)[0];
         }
     },
     methods: {
@@ -33,10 +33,12 @@ export default {
         /** GET USERS
         */
         getUsers() {
-            let token = LS.getData('auth_token');
+            const token = LS.getData('auth_token');
             getProfiles(token)
-                .then( docs => this.users = docs)
-                .catch( err => console.log(err) );
+                .then((docs) => {
+                    this.users = docs;
+                })
+                .catch(err => new Error(err));
         },
 
         /** RENDER USER DETAIL
@@ -48,7 +50,7 @@ export default {
     mounted() {
         this.getUsers();
     }
-}
+};
 </script>
 
 <style scoped lang="css">

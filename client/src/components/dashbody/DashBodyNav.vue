@@ -20,12 +20,12 @@
 </template>
 
 <script>
-import { logout } from "@/utils/auth";
+import { logout } from '@/utils/auth';
 
 export default {
     data() {
         return {
-            nav_links: ["users", "posts", "connections", "conversations", "logs"]
+            nav_links: ['users', 'posts', 'connections', 'conversations', 'logs']
         };
     },
     methods: {

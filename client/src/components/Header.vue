@@ -8,7 +8,7 @@
 <script>
 export default {
     name: 'DashHeader'
-}
+};
 </script>
 
 <style scoped lang="css" >

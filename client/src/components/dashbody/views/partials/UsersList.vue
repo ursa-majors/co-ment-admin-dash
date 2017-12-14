@@ -12,9 +12,9 @@
 
 <script>
 export default {
-    name: 'UsersList',
-    props: ['users'],
-    methods: {
+    name    : 'UsersList',
+    props   : ['users'],
+    methods : {
 
         /** HANDLE
          *  Route to link on nav button click - WIP

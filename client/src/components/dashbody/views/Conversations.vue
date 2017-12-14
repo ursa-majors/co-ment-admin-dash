@@ -5,7 +5,7 @@
 <script>
 export default {
     name: 'Conversations'
-}
+};
 </script>
 
 <style lang="css">

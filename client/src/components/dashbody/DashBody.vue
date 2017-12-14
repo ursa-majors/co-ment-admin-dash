@@ -6,14 +6,14 @@
 </template>
 
 <script>
-import DashBodyNav from './DashBodyNav.vue';
+import DashBodyNav from './DashBodyNav';
 
 export default {
-    name: 'DashBody',
-    components: {
+    name       : 'DashBody',
+    components : {
         DashBodyNav
     }
-}
+};
 </script>
 
 <style lang="css">

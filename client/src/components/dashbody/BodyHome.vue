@@ -7,7 +7,7 @@
 <script>
 export default {
     name: 'BodyHome'
-}
+};
 </script>
 
 <style scoped lang="css">

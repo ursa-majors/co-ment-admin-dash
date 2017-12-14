@@ -7,7 +7,7 @@
 <script>
 export default {
     name: 'DashFooter'
-}
+};
 </script>
 
 <style scoped lang="css">

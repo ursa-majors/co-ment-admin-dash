@@ -7,18 +7,18 @@
 </template>
 
 <script>
-    import DashHeader from '@/components/Header.vue';
-    import DashFooter from '@/components/Footer.vue';
-    import DashBody   from '@/components/dashbody/DashBody.vue';
+import DashHeader from '@/components/Header';
+import DashFooter from '@/components/Footer';
+import DashBody   from '@/components/dashbody/DashBody';
 
-    export default {
-        name: 'Dash',
-        components: {
-            DashHeader,
-            DashBody,
-            DashFooter
-        }
-    };
+export default {
+    name       : 'Dash',
+    components : {
+        DashHeader,
+        DashBody,
+        DashFooter
+    }
+};
 </script>
 
 <style>

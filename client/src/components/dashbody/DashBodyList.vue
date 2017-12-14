@@ -11,7 +11,7 @@
 <script>
 export default {
     props: ['documents']
-}
+};
 </script>
 
 <style lang="css">

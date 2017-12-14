@@ -15,6 +15,7 @@ const storage = (function storageSetup() {
         store.removeItem(uid);
         return result && store;
     } catch (exception) {
+        // eslint-disable-next-line 
         console.log('localStorage unavailable');
         return false;
     }
