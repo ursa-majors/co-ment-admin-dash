@@ -1,5 +1,5 @@
 <template lang="html">
-  <p>Logs</p>
+    <p>Logs</p>
 </template>
 
 <script>

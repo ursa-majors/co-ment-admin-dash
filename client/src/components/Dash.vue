@@ -7,9 +7,9 @@
 </template>
 
 <script>
-    import DashHeader     from '@/components/Header.vue';
-    import DashFooter     from '@/components/Footer.vue';
-    import DashBody       from '@/components/dashbody/DashBody.vue';
+    import DashHeader from '@/components/Header.vue';
+    import DashFooter from '@/components/Footer.vue';
+    import DashBody   from '@/components/dashbody/DashBody.vue';
 
     export default {
         name: 'Dash',

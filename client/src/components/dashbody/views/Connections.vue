@@ -1,5 +1,5 @@
 <template lang="html">
-  <p>Connections</p>
+    <p>Connections</p>
 </template>
 
 <script>

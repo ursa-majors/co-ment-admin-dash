@@ -1,5 +1,5 @@
 <template lang="html">
-  <p>Posts</p>
+    <p>Posts</p>
 </template>
 
 <script>

@@ -1,8 +1,8 @@
 <template lang="html">
-  <div class="users">
-      <UsersList v-bind:users="users" v-on:user="setUserId"/>
-      <UserDetail v-bind:user="user" />
-  </div>
+<div class="users">
+    <UsersList v-bind:users="users" v-on:user="setUserId"/>
+    <UserDetail v-bind:user="user" />
+</div>
 </template>
 
 <script>

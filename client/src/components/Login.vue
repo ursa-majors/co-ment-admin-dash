@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import AuthenticationService from '@/services/AuthenticationService';
-import LS                    from '@/utils/localStorage';
+import AuthService from '@/services/AuthService';
+import LS          from '@/utils/localStorage';
 
 export default {
     name: 'login',
@@ -46,7 +46,7 @@ export default {
          *  On failure: sets 'error' property to API error response string.
         */
         login() {
-            AuthenticationService.login({
+            AuthService.login({
                 username : this.username,
                 password : this.password
             })

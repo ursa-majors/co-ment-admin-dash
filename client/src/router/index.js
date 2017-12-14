@@ -33,23 +33,23 @@ const router = new Router({
                 },
                 {
                     path: 'posts',
-                    component: Posts,
+                    component: Posts
                 },
                 {
                     path: 'connections',
-                    component: Connections,
+                    component: Connections
                 },
                 {
                     path: 'conversations',
-                    component: Conversations,
+                    component: Conversations
                 },
                 {
                     path: 'logs',
-                    component: Logs,
+                    component: Logs
                 }
             ]
         }
-  ]
+    ]
 });
 
 // router.beforeEach( (to, from, next) => {

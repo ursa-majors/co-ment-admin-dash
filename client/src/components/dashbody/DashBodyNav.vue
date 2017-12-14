@@ -1,22 +1,22 @@
 <template lang="html">
-    <nav class="dash-nav">
-        <ul class="dash-nav-links">
-            <div>
-                <li v-for="(link, index) in nav_links">
-                    <button @click="handleLink(link)">
-                        <img :src="require(`@/assets/${link}.svg`)" :alt="link">
-                        <p>{{link}}</p>
-                    </button>
-                </li>
-            </div>
-            <li>
-                <button @click="handleLogout()" class="last">
-                    <img src="../../assets/logout.svg" alt="Logout">
-                    <p>Logout</p>
+<nav class="dash-nav">
+    <ul class="dash-nav-links">
+        <div>
+            <li v-for="(link, index) in nav_links">
+                <button @click="handleLink(link)">
+                    <img :src="require(`@/assets/${link}.svg`)" :alt="link">
+                    <p>{{link}}</p>
                 </button>
             </li>
-        </ul>
-    </nav>
+        </div>
+        <li>
+            <button @click="handleLogout()" class="last">
+                <img src="../../assets/logout.svg" alt="Logout">
+                <p>Logout</p>
+            </button>
+        </li>
+    </ul>
+</nav>
 </template>
 
 <script>

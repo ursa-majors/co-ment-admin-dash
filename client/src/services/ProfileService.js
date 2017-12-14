@@ -6,26 +6,26 @@ import Api from '@/services/Api';
  *  @param     {String}   token   JWT token from local storage
  *  @returns   {Promise}          Promise + payload: JSON array of profiles
 */
-export function getProfiles (token) {
+export function getProfiles(token) {
     const config = {
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` }
     };
     return Api()
-        .get( 'api/profiles', config )
-        .then( response => response.data );
+        .get('api/profiles', config)
+        .then(response => response.data);
 }
 
 
-/** GET ALL PROFILES
+/** GET ONE PROFILE
  *  @param     {String}   id      _id of the profile to fetch
  *  @param     {String}   token   JWT token from local storage
  *  @returns   {Promise}          Promise + payload: JSON profile
 */
-export function getOneProfile (id, token) {
+export function getOneProfile(id, token) {
     const config = {
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` }
     };
     return Api()
-        .get( `api/profiles/${id}`, config )
-        .then( response => response.data );
+        .get(`api/profiles/${id}`, config)
+        .then(response => response.data);
 }

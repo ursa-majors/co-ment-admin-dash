@@ -1,6 +1,6 @@
-# co-ment-admin-dash
+# co-ment-admin-dash-client
 
-> co/ment admin dash
+> co/ment admin dashboard
 
 ## Build Setup
 
