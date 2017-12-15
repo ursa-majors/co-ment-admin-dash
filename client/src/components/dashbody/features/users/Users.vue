@@ -6,10 +6,10 @@
 </template>
 
 <script>
-import UsersList  from '@/components/dashbody/features/partials/UsersList';
-import UserDetail from '@/components/dashbody/features/partials/UserDetail';
-import LS         from '@/utils/localStorage';
 import { getProfiles, getOneProfile } from '@/services/ProfileService';
+import LS         from '@/utils/localStorage';
+import UsersList  from './UsersList';
+import UserDetail from './UserDetail';
 
 export default {
     name       : 'Users',
@@ -26,6 +26,7 @@ export default {
     methods: {
 
         /** GET ALL USERS
+         *  @returns  {null}
         */
         getUsers() {
             const token = LS.getData('auth_token');
@@ -37,7 +38,8 @@ export default {
         },
 
         /** GET ONE USER
-         *  @param  {String}  userId  User _id emitted from UsersList component
+         *  @param    {String}  userId  User _id emitted by UsersList component
+         *  @returns  {null}
         */
         getOneUser(userId) {
             const token = LS.getData('auth_token');
