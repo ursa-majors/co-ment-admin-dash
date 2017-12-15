@@ -17,11 +17,11 @@ export function getProfiles(token) {
 
 
 /** GET ONE PROFILE
- *  @param     {String}   id      _id of the profile to fetch
  *  @param     {String}   token   JWT token from local storage
+ *  @param     {String}   id      _id of the profile to fetch
  *  @returns   {Promise}          Promise + payload: JSON profile
 */
-export function getOneProfile(id, token) {
+export function getOneProfile(token, id) {
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     };
