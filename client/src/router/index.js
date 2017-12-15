@@ -4,11 +4,11 @@ import { requireAuth } from '@/utils/auth';
 import Login           from '@/components/Login';
 import Dash            from '@/components/Dash';
 import BodyHome        from '@/components/dashbody/BodyHome';
-import Users           from '@/components/dashbody/features/Users';
-import Posts           from '@/components/dashbody/features/Posts';
-import Connections     from '@/components/dashbody/features/Connections';
-import Conversations   from '@/components/dashbody/features/Conversations';
-import Logs            from '@/components/dashbody/features/Logs';
+import Users           from '@/components/dashbody/features/users/Users';
+import Posts           from '@/components/dashbody/features/posts/Posts';
+import Connections     from '@/components/dashbody/features/connections/Connections';
+import Conversations   from '@/components/dashbody/features/conversations/Conversations';
+import Logs            from '@/components/dashbody/features/logs/Logs';
 
 Vue.use(Router);
 
