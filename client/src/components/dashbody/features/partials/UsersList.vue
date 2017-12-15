@@ -44,6 +44,7 @@ export default {
     border: 1px solid #a9a9a9;
     margin: 0 2px .75em 0;
     padding: .5em;
+    cursor: pointer;
 }
 
 .users-list > div:last-child {
