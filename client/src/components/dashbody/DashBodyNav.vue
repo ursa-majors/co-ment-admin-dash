@@ -2,8 +2,10 @@
 <nav class="dash-nav">
     <ul class="dash-nav-links">
         <div>
-            <li v-for="(link, index) in nav_links">
-                <button @click="handleLink(link)">
+            <li v-for="(link, index) in navLinks" :ref="`nav-${link}`">
+                <button
+                    :class="{active : isActive(link)}"
+                    @click="handleLink(link)">
                     <img :src="require(`@/assets/${link}.svg`)" :alt="link">
                     <p>{{link}}</p>
                 </button>
@@ -25,10 +27,17 @@ import { logout } from '@/utils/auth';
 export default {
     data() {
         return {
-            nav_links: ['users', 'posts', 'connections', 'conversations', 'logs']
+            active   : false,
+            navLinks : ['users', 'posts', 'connections', 'conversations', 'logs']
         };
     },
     methods: {
+
+        /** CHECK IF BUTTON IS ACTIVE
+        */
+        isActive(link) {
+            return this.active === link;
+        },
 
         /** HANDLE LINK
          *  Route to link on nav button click - WIP
@@ -36,6 +45,9 @@ export default {
          *  @returns   {null}
         */
         handleLink(link) {
+            // eslint-disable-next-line
+            console.log(this.$refs);
+            this.active = link;
             this.$router.push({ path: `/dash/${link}` });
         },
 
