@@ -1,13 +1,14 @@
-import Vue           from 'vue';
-import Router        from 'vue-router';
-import Login         from '@/components/Login';
-import Dash          from '@/components/Dash';
-import BodyHome      from '@/components/dashbody/BodyHome';
-import Users         from '@/components/dashbody/views/Users';
-import Posts         from '@/components/dashbody/views/Posts';
-import Connections   from '@/components/dashbody/views/Connections';
-import Conversations from '@/components/dashbody/views/Conversations';
-import Logs          from '@/components/dashbody/views/Logs';
+import Vue             from 'vue';
+import Router          from 'vue-router';
+import { requireAuth } from '@/utils/auth';
+import Login           from '@/components/Login';
+import Dash            from '@/components/Dash';
+import BodyHome        from '@/components/dashbody/BodyHome';
+import Users           from '@/components/dashbody/features/Users';
+import Posts           from '@/components/dashbody/features/Posts';
+import Connections     from '@/components/dashbody/features/Connections';
+import Conversations   from '@/components/dashbody/features/Conversations';
+import Logs            from '@/components/dashbody/features/Logs';
 
 Vue.use(Router);
 
@@ -19,9 +20,10 @@ const router = new Router({
             component : Login
         },
         {
-            path      : '/dash',
-            component : Dash,
-            children  : [
+            path        : '/dash',
+            component   : Dash,
+            beforeEnter : requireAuth,
+            children    : [
                 {
                     path      : '',
                     component : BodyHome
@@ -50,12 +52,5 @@ const router = new Router({
         }
     ]
 });
-
-// router.beforeEach( (to, from, next) => {
-//     console.log('CHECK AUTH HERE!');
-//     console.log('to:', to);
-//     console.log('from:', from);
-//     next();
-// });
 
 export default router;
