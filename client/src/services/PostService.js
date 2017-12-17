@@ -1,31 +1,31 @@
-// hits 'api/profiles' endpoints
+// hits 'api/posts' endpoints
 
 import Api from '@/services/Api';
 
-/** GET ALL PROFILES
+/** GET ALL POSTS
  *  @param     {String}   token   JWT token from local storage
- *  @returns   {Promise}          Promise + payload: JSON array of profiles
+ *  @returns   {Promise}          Promise + payload: JSON array of posts
 */
-export function getProfiles(token) {
+export function getPosts(token) {
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     };
     return Api()
-        .get('api/profiles', config)
+        .get('api/posts', config)
         .then(response => response.data);
 }
 
 
-/** GET ONE PROFILE
+/** GET ONE POST
  *  @param     {String}   token   JWT token from local storage
- *  @param     {String}   id      _id of the profile to fetch
- *  @returns   {Promise}          Promise + payload: JSON profile
+ *  @param     {String}   id      _id of the post to fetch
+ *  @returns   {Promise}          Promise + payload: JSON post
 */
-export function getOneProfile(token, id) {
+export function getOnePost(token, id) {
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     };
     return Api()
-        .get(`api/profiles/${id}`, config)
+        .get(`api/posts/${id}`, config)
         .then(response => response.data);
 }

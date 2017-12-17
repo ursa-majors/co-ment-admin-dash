@@ -13,10 +13,10 @@ export default {
      *        password: '12345'
      *    });
     */
-    login (creds) {
+    login(creds) {
         return Api()
-            .post( 'auth/login', creds )
-            .then( response => response.data );
+            .post('auth/login', creds)
+            .then(response => response.data);
     }
 
 };

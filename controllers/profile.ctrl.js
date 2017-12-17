@@ -7,7 +7,6 @@
 const User       = require('../models/user');
 const Post       = require('../models/post');
 const parseSKill = require('../utils/skills_parser');
-const projection = { signupKey: 0, passwordResetKey: 0, hash: 0, salt: 0 };
 
 
 /* ============================ ROUTE HANDLERS ============================= */
@@ -19,14 +18,13 @@ const projection = { signupKey: 0, passwordResetKey: 0, hash: 0, salt: 0 };
 //
 function getProfiles(req, res) {
 
-    User.find({}, projection)
+    const proj = { username: 1, name: 1 };
+
+    User.find({})
+        .select('username name')
         .exec()
-        .then( profiles => res.status(200).json(profiles) )
-        .catch( err => {
-            return res
-                .status(400)
-                .json({ message: err });
-        });
+        .then(profiles => res.status(200).json(profiles))
+        .catch(err => res.status(400).json({ message: err }));
 }
 
 
@@ -41,19 +39,11 @@ function getOneProfile(req, res) {
 
     const target = req.params.id;
 
-    User.findOne({_id: target}, projection, (err, profile) => {
-
-        if (!profile) {
-            return res
-                .status(404)
-                .json({ message : 'User profile not found!'});
-        }
-
-        return res
-            .status(200)
-            .json(profile);
-
-    });
+    User.findById(target)
+        .select('-signupKey -passwordResetKey -hash -salt -__v')
+        .exec()
+        .then(profile => res.status(200).json(profile))
+        .catch(err => res.status(400).json({ message: err }));
 
 }
 
@@ -104,7 +94,7 @@ function updateProfile(req, res) {
 
         // map enumerable req body properties to updates object
         const updates = Object.assign({}, req.body);
-        
+
         // parse skills array if update includes skills
         if (updates.skills) {
             updates.skills = (updates.skills).map( skill => parseSKill(skill) );
@@ -113,7 +103,7 @@ function updateProfile(req, res) {
         const options = {
             new: true  // return updated document rather than the original
         };
-        
+
         User.findOneAndUpdate(target, updates, options)
             .exec()
             .then( user => {
@@ -157,7 +147,7 @@ function updateProfile(req, res) {
 //   Returns: success message & deleted user profile on success
 //
 function deleteProfile(req, res) {
-    
+
     const targetUser = {
         _id      : req.params.id,
         username : req.token.username
@@ -169,7 +159,7 @@ function deleteProfile(req, res) {
             .status(400)
             .json({ message: 'Error: user ID mismatch.'});
     }
-    
+
     User.findOneAndRemove(targetUser)
         .exec()
         .then( user => {
@@ -181,40 +171,40 @@ function deleteProfile(req, res) {
                     .json({message: 'User not found!'});
 
             } else {
-                
+
                 const postAuthor = {
                     author_id : targetUser._id,
                     author    : targetUser.username
                 };
-                
+
                 const updates = {
                     deleted   : true,
                     active    : false
                 };
-                
+
                 const options = {
                     multi     : true
                 };
-                
+
                 // "delete" all posts from same author. Sets "deleted" to true,
                 // and "active" to false
                 Post.update(postAuthor, updates, options, (err, raw) => {
-                    
+
                     if (err) { throw err; }
-                    
+
                     else {
                         console.log('The raw response from Mongo was ', raw);
-                        
+
                         return res
                             .status(200)
                             .json({
                                 message : 'User profile deleted!',
                                 user    : user
                             });
-                    }                    
-                    
-                }); 
-                
+                    }
+
+                });
+
             }
 
         })
