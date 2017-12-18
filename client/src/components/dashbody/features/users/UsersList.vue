@@ -1,7 +1,12 @@
 <template lang="html">
 <div class="users-list">
     <div class="card" v-for="(doc, index) in users">
-        <div @click="handleCardClicked(doc)">
+        <div @click="navigateTo({
+                name: 'UserDetail',
+                params: {
+                    userId: doc._id
+                }
+            })">
             <p>Username: {{doc.username}}</p>
             <p>Name: {{doc.name || '{anon}'}}</p>
             <p>_id: {{doc._id}}</p>
@@ -16,14 +21,13 @@ export default {
     props   : ['users'],
     methods : {
 
-        /** HANDLE
-         *  Route to link on nav button click - WIP
-         *  @param     {String}   link   Collection name to route to
-         *  @returns   {null}
+        /** HANDLE CARD CLICK
+        *  Triggers route to render user detail component
+        *  @param     {Object}   route   Destination route object
+        *  @returns   {null}
         */
-        handleCardClicked(user) {
-            // this.$router.push({ path: `/dash/users/${user._id}` });
-            this.$emit('user', user._id);
+        navigateTo(route) {
+            this.$router.push(route);
         }
 
     }
@@ -32,9 +36,11 @@ export default {
 
 <style scoped lang="css">
 .users-list {
+    box-sizing: border-box;
     min-height: 0;
+    max-width: 50%;
     flex: 1;
-    margin-right: .5em;
+    margin-right: 5px;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -56,17 +62,4 @@ export default {
     margin: .15em 0;
 }
 
-::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
-}
-
-::-webkit-scrollbar-thumb {
-    border-radius: 3px;
-    background: rgba(112,112,112,0.7);
-}
-
-::-webkit-scrollbar-corner {
-    display: none;
-}
 </style>

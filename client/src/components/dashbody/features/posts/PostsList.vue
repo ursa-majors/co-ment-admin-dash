@@ -1,7 +1,12 @@
 <template lang="html">
 <div class="posts-list">
     <div class="card" v-for="(doc, index) in posts">
-        <div @click="handleCardClicked(doc)">
+        <div @click="navigateTo({
+                name: 'PostDetail',
+                params: {
+                    postId: doc._id
+                }
+            })">
             <p>Author: {{doc.author.username}}</p>
             <p>Title: {{doc.title}}</p>
             <p>_id: {{doc._id}}</p>
@@ -16,14 +21,13 @@ export default {
     props   : ['posts'],
     methods : {
 
-        /** HANDLE CARD CLICK EVENTS
-         *  Route to link on nav button click - WIP
-         *  @param     {String}   link   Collection name to route to
-         *  @returns   {null}
+        /** HANDLE CARD CLICK
+        *  Triggers route to render post detail component
+        *  @param     {Object}   route   Destination route object
+        *  @returns   {null}
         */
-        handleCardClicked(post) {
-            // this.$router.push({ path: `/dash/posts/${post._id}` });
-            this.$emit('post', post._id);
+        navigateTo(route) {
+            this.$router.push(route);
         }
 
     }
@@ -32,7 +36,9 @@ export default {
 
 <style scoped lang="css">
 .posts-list {
+    box-sizing: border-box;
     min-height: 0;
+    max-width: 50%;
     flex: 1;
     margin-right: .5em;
     overflow-y: auto;
