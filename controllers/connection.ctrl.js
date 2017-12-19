@@ -61,7 +61,7 @@ function updateConnection(req, res) {
 
     const options = { new: true };
 
-    Connection.findOneAndUpdate(target, update, options)
+    Connection.findOneAndUpdate(target, updates, options)
         .exec()
         .then( (conn) => res.status(200).json(conn) )
         .catch( (err) => res.status(400).json(err) );
