@@ -1,7 +1,3 @@
-/*
-   route controllers to handle in-app messaging CRUD
-*/
-
 
 /* ================================= SETUP ================================= */
 
@@ -88,101 +84,24 @@ function formatConvData(convs, user) {
 }
 
 
-/* Add array of messages to conversations
- * If 'convos' is an array, return summary list of conversations.
- * If 'convos' is an object, return conversation with messages and
- * set message 'unread' to false
- *
- * @params    [object]   convos   [array of conv objects or single conv object]
- * @params    [string]   user     [user's '_id']
- * @returns   [object]            [populated conversation(s)]
-*/
-function populateMessages(convos, user) {
-
-    let convIsArray = Array.isArray(convos);
-
-    if (convIsArray) {
-        return Message.find({ $or: [ { author : user }, { recipient : user } ]})
-            .sort({ createdAt: -1 })
-            .exec()
-            .then( msgs => {
-
-                return convos.map( c => {
-                    let messages = msgs.filter( m => {
-                        return m.conversation.toString() === c._id.toString();
-                    });
-                    return {
-                        _id          : c._id,
-                        subject      : c.subject,
-                        participants : c.participants,
-                        startDate    : c.startDate,
-                        messages     : messages
-                    };
-                });
-
-        });
-    } else {
-        return Message.find({ conversation : convos._id })
-            .exec()
-            .then( msgs => {
-
-                return {
-                    _id          : convos._id,
-                    subject      : convos.subject,
-                    participants : convos.participants,
-                    startDate    : convos.startDate,
-                    messages     : msgs
-                };
-
-        });
-    }
-
-}
-
-
 /* ============================ ROUTE HANDLERS ============================= */
 
 // GET CONVERSATIONS
 //   Example: GET >> /api/conversations
 //   Secured: yes, valid JWT required
-//   Expects:
-//     1) user '_id' from JWT token
-//   Returns: array of user's conversations with most recent messages.
+//   Returns: array of JSON objects with conversation metadata
 //
 function getConversations(req, res) {
 
-    Conversation.find({ participants: req.token._id })
-        .select('subject startDate messages participants')
-
-        // add conversation participant details
+    Conversation.find({})
+        .select('subject participants')
         .populate({
             path   : 'participants',
-            select : 'username name avatarUrl'
+            select : 'username'
         })
         .exec()
-
-        // add messages to each conversation in the results array
-        .then( convos => populateMessages(convos, req.token._id) )
-
-        // get unreads and filter messages
-        .then( convos => formatConvData(convos, req.token._id) )
-
-        .then( data => {
-            // set user's alreadyContacted flag to false so they rec
-            // reminders of new messages
-            User.findByIdAndUpdate(
-                req.token._id,
-                { $set : {'contactMeta.alreadyContacted' : false }}
-            ).exec();
-
-            // return response
-            return res.status(200).json(data);
-        })
-        .catch( err => {
-            return res
-                .status(400)
-                .json({ message: err });
-        });
+        .then( (convs) => res.status(200).json(convs) )
+        .catch( (err) => res.status(400).json(err) );
 }
 
 
@@ -191,27 +110,40 @@ function getConversations(req, res) {
 //   Secured: yes, valid JWT required
 //   Expects:
 //     1) conversation '_id' from the request params
-//   Returns: array of messages from single conversation.
+//   Returns: conversaion + array of messages
 //
 function getOneConversation(req, res) {
 
     Conversation.findById(req.params.id)
         .select('subject startDate messages participants')
         .populate({
-            path : 'participants',
-            select: 'username name avatarUrl'
+            path   : 'participants',
+            select : 'username name avatarUrl'
         })
         .exec()
 
         // add messages array to the conversation
-        .then( convo => populateMessages(convo, req.token._id) )
+        .then( convo => {
+            return Message
+                .find({ conversation : convo._id })
+                .select('-conversation -__v')
+                .exec()
+                .then( msgs => {
 
-        .then( data => res.status(200).json(data) )
-        .catch( err => {
-            return res
-                .status(400)
-                .json({ message: err });
-        });
+                    return {
+                        _id          : convo._id,
+                        subject      : convo.subject,
+                        participants : convo.participants,
+                        startDate    : convo.startDate,
+                        messages     : msgs
+                    };
+
+            });
+        })
+
+        .then( (conv) => res.status(200).json(conv) )
+        .catch( (err) => res.status(400).json(err) );
+
 }
 
 

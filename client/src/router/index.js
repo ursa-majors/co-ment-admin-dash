@@ -1,14 +1,19 @@
-import Vue             from 'vue';
-import Router          from 'vue-router';
-import { requireAuth } from '@/utils/auth';
-import Login           from '@/components/Login';
-import Dash            from '@/components/Dash';
-import BodyHome        from '@/components/dashbody/BodyHome';
-import Users           from '@/components/dashbody/features/users/Users';
-import Posts           from '@/components/dashbody/features/posts/Posts';
-import Connections     from '@/components/dashbody/features/connections/Connections';
-import Conversations   from '@/components/dashbody/features/conversations/Conversations';
-import Logs            from '@/components/dashbody/features/logs/Logs';
+import Vue                from 'vue';
+import Router             from 'vue-router';
+import { requireAuth }    from '@/utils/auth';
+import Login              from '@/components/Login';
+import Dash               from '@/components/Dash';
+import BodyHome           from '@/components/dashbody/BodyHome';
+import Users              from '@/components/dashbody/features/users/Users';
+import UserDetail         from '@/components/dashbody/features/users/UserDetail';
+import Posts              from '@/components/dashbody/features/posts/Posts';
+import PostDetail         from '@/components/dashbody/features/posts/PostDetail';
+import Connections        from '@/components/dashbody/features/connections/Connections';
+import ConnectionDetail   from '@/components/dashbody/features/connections/ConnectionDetail';
+import Conversations      from '@/components/dashbody/features/conversations/Conversations';
+import ConversationDetail from '@/components/dashbody/features/conversations/ConversationDetail';
+import Logs               from '@/components/dashbody/features/logs/Logs';
+import LogDetail          from '@/components/dashbody/features/logs/LogDetail';
 
 Vue.use(Router);
 
@@ -30,23 +35,58 @@ const router = new Router({
                 },
                 {
                     path      : 'users',
-                    component : Users
+                    component : Users,
+                    children  : [
+                        {
+                            path      : ':userId',
+                            name      : 'UserDetail',
+                            component : UserDetail
+                        }
+                    ]
                 },
                 {
                     path      : 'posts',
-                    component : Posts
+                    component : Posts,
+                    children  : [
+                        {
+                            path      : ':postId',
+                            name      : 'PostDetail',
+                            component : PostDetail
+                        }
+                    ]
                 },
                 {
                     path      : 'connections',
-                    component : Connections
+                    component : Connections,
+                    children  : [
+                        {
+                            path      : ':connectionId',
+                            name      : 'ConnectionDetail',
+                            component : ConnectionDetail
+                        }
+                    ]
                 },
                 {
                     path      : 'conversations',
-                    component : Conversations
+                    component : Conversations,
+                    children  : [
+                        {
+                            path      : ':conversationId',
+                            name      : 'ConversationDetail',
+                            component : ConversationDetail
+                        }
+                    ]
                 },
                 {
                     path      : 'logs',
-                    component : Logs
+                    component : Logs,
+                    children  : [
+                        {
+                            path      : ':logId',
+                            name      : 'LogDetail',
+                            component : LogDetail
+                        }
+                    ]
                 }
             ]
         }

@@ -1,6 +1,3 @@
-/*
-   functions to handle post retrieval, creation, update, and deletion
-*/
 
 /* ================================= SETUP ================================= */
 
@@ -18,14 +15,14 @@ const User = require('../models/user');
 function getPosts(req, res) {
 
     Post.find({})
-        .populate('author', 'username name avatarUrl time_zone languages gender')
+        .select('author title')
+        .populate({
+            path   : 'author',
+            select: 'username'
+        })
         .exec()
-        .then( posts => res.status(200).json(posts) )
-        .catch( err => {
-            return res
-                .status(400)
-                .json({ message: err });
-        });
+        .then( (posts) => res.status(200).json(posts) )
+        .catch( (err) => res.status(400).json(err) );
 }
 
 
@@ -39,14 +36,15 @@ function getPosts(req, res) {
 function getOnePost(req, res) {
 
     Post.findById(req.params.id)
-        .populate('author', 'username name avatarUrl time_zone languages gender')
+        .select('-__v')
+        .populate({
+            path   : 'author',
+            select : '_id name username avatarUrl'
+        })
         .exec()
-        .then( post => res.status(200).json(post) )
-        .catch( err => {
-            return res
-                .status(400)
-                .json({ message: err });
-        });
+        .then( (post) => res.status(200).json(post) )
+        .catch( (err) => res.status(400).json(err) );
+
 }
 
 
@@ -107,22 +105,12 @@ function updatePost(req, res) {
 
                         if (err) { throw new Error(err); }
 
-                        return res
-                            .status(200)
-                            .json({
-                                message : 'Post updated!',
-                                post    : populatedPost
-                            });
+                        return res.status(200).json(populatedPost);
                     });
 
             }
-    })
-    .catch( err => {
-        console.log('Error!!!', err);
-            return res
-                .status(400)
-                .json({ message: err });
-    });
+        })
+        .catch( (err) => res.status(400).json(err) );
 
 }
 
@@ -147,39 +135,34 @@ function deletePost(req, res) {
         active    : false,
         updatedAt : new Date().toISOString()
     };
-    
+
     const options = { new : true };
 
-    Post.findOneAndUpdate(target, updates, options, (err, post) => {
+    Post.findOneAndUpdate(target, updates, options)
+        .exec()
+        .then( post => {
+            if (!post) {
 
-        if (err) { throw err; }
+                return res
+                    .status(404)
+                    .json({message: 'Post not found!'});
 
-        if (!post) {
+            } else {
 
-            return res
-                .status(404)
-                .json({message: 'Post not found!'});
+                post.populate({
+                        path   : 'author',
+                        select : 'username name avatarUrl time_zone languages gender'
+                    }, (err, populatedPost) => {
 
-        } else {
+                        if (err) { throw new Error(err); }
 
-            post.populate({
-                    path   : 'author',
-                    select : 'username name avatarUrl time_zone languages gender'
-                }, (err, populatedPost) => {
+                        return res.status(200).json(populatedPost);
+                    });
 
-                    if (err) { throw new Error(err); }
+            }
 
-                    return res
-                        .status(200)
-                        .json({
-                            message : 'Post deleted!',
-                            post    : populatedPost
-                        });
-                });
-
-        }
-
-    });
+        })
+        .catch( (err) => res.status(400).json(err) );
 
 }
 

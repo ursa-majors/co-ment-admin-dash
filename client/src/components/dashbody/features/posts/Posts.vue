@@ -1,51 +1,32 @@
 <template lang="html">
 <div class="posts">
-    <PostsList v-bind:posts="posts" v-on:post="getOnePost"/>
-    <PostDetail v-bind:post="post" />
+    <PostsList v-bind:posts="posts" />
+    <router-view/>
 </div>
 </template>
 
 <script>
-import { getPosts, getOnePost } from '@/services/PostService';
-import LS         from '@/utils/localStorage';
-import PostsList  from './PostsList';
-import PostDetail from './PostDetail';
+import { getPosts } from '@/services/PostService';
+import LS           from '@/utils/localStorage';
+import PostsList    from './PostsList';
 
 export default {
     name       : 'Posts',
     components : {
-        PostsList,
-        PostDetail
+        PostsList
     },
     data() {
         return {
-            posts : [],
-            post  : {}
+            posts: []
         };
     },
     methods: {
 
-        /** GET ALL POSTS
-         *  @returns  {null}
-        */
         getPosts() {
             const token = LS.getData('auth_token');
             getPosts(token)
                 .then((docs) => {
                     this.posts = docs;
-                })
-                .catch(err => new Error(err));
-        },
-
-        /** GET ONE POST
-         *  @param    {String}  postId  Post _id emitted by PostsList component
-         *  @returns  {null}
-        */
-        getOnePost(postId) {
-            const token = LS.getData('auth_token');
-            getOnePost(token, postId)
-                .then((doc) => {
-                    this.post = doc;
                 })
                 .catch(err => new Error(err));
         }

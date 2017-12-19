@@ -1,55 +1,55 @@
 <template lang="html">
-<div class="user-detail">
+<div class="log-detail">
     <textarea
         wrap="off"
         readonly="true"
-    >{{ JSON.stringify(user, null, 2) }}
+    >{{ JSON.stringify(log, null, 2) }}
     </textarea>
 </div>
 </template>
 
 <script>
-import { getOneProfile } from '@/services/ProfileService';
-import LS                from '@/utils/localStorage';
+import { getOneLog } from '@/services/LogService';
+import LS            from '@/utils/localStorage';
 
 export default {
-    name: 'UserDetail',
+    name: 'LogDetail',
     data() {
         return {
-            user: {}
+            log: {}
         };
     },
     watch: {
-        $route: 'fetchUser'
+        $route: 'fetchLog'
     },
     methods: {
-        /** GET ONE USER
-         *  @param    {String}  userId  User _id emitted by UsersList component
-         *  @returns  {null}
+
+        /** GET ONE LOG
+         *  Triggered on 1st mount and on changes to the route
         */
-        fetchUser() {
+        fetchLog() {
             const token = LS.getData('auth_token');
-            getOneProfile(token, this.$route.params.userId)
+            getOneLog(token, this.$route.params.logId)
                 .then((doc) => {
-                    this.user = doc;
+                    this.log = doc;
                 })
                 .catch(err => new Error(err));
         }
 
     },
     mounted() {
-        this.fetchUser();
+        this.fetchLog();
     }
 };
 </script>
 
 <style lang="css">
-.user-detail {
+.log-detail {
     flex: 1;
     margin: 0 3px 3px;
 }
 
-.user-detail textarea {
+.log-detail textarea {
     background: black;
     border: none;
     color: white;
@@ -60,9 +60,5 @@ export default {
     outline: none;
     overflow: auto;
     width: 100%;
-}
-
-.user-detail img {
-    max-width: 100%;
 }
 </style>

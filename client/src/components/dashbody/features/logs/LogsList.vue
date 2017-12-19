@@ -1,14 +1,15 @@
 <template lang="html">
-<div class="posts-list">
-    <div class="card" v-for="(doc, index) in posts">
+<div class="logs-list">
+    <div class="card" v-for="(doc, index) in logs">
         <div @click="navigateTo({
-                name: 'PostDetail',
+                name: 'LogDetail',
                 params: {
-                    postId: doc._id
+                    logId: doc._id
                 }
             })">
-            <p>Author: {{doc.author.username}}</p>
-            <p>Title: {{doc.title}}</p>
+            <p>Date: {{doc.createdAt}}</p>
+            <p>Category: {{doc.category}}</p>
+            <p>Action: {{doc.actionTaken}}</p>
             <p>_id: {{doc._id}}</p>
         </div>
     </div>
@@ -17,12 +18,12 @@
 
 <script>
 export default {
-    name    : 'PostsList',
-    props   : ['posts'],
+    name    : 'LogsList',
+    props   : ['logs'],
     methods : {
 
         /** HANDLE CARD CLICK
-        *  Triggers route to render post detail component
+        *  Triggers route to render log detail component
         *  @param     {Object}   route   Destination route object
         *  @returns   {null}
         */
@@ -35,7 +36,7 @@ export default {
 </script>
 
 <style scoped lang="css">
-.posts-list {
+.logs-list {
     box-sizing: border-box;
     min-height: 0;
     max-width: 50%;
@@ -45,7 +46,7 @@ export default {
     overflow-x: hidden;
 }
 
-.posts-list > div {
+.logs-list > div {
     background: white;
     border: 1px solid #a9a9a9;
     margin: 0 2px .75em 0;
@@ -53,11 +54,11 @@ export default {
     cursor: pointer;
 }
 
-.posts-list > div:last-child {
+.logs-list > div:last-child {
     margin-bottom: 0;
 }
 
-.posts-list > div p {
+.logs-list > div p {
     color: black;
     margin: .15em 0;
     white-space: nowrap;

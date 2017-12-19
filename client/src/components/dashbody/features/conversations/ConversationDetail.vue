@@ -1,55 +1,55 @@
 <template lang="html">
-<div class="user-detail">
+<div class="conversation-detail">
     <textarea
         wrap="off"
         readonly="true"
-    >{{ JSON.stringify(user, null, 2) }}
+    >{{ JSON.stringify(conversation, null, 2) }}
     </textarea>
 </div>
 </template>
 
 <script>
-import { getOneProfile } from '@/services/ProfileService';
-import LS                from '@/utils/localStorage';
+import { getOneConversation } from '@/services/ConversationService';
+import LS                   from '@/utils/localStorage';
 
 export default {
-    name: 'UserDetail',
+    name: 'ConversationDetail',
     data() {
         return {
-            user: {}
+            conversation: {}
         };
     },
     watch: {
-        $route: 'fetchUser'
+        $route: 'fetchConversation'
     },
     methods: {
-        /** GET ONE USER
-         *  @param    {String}  userId  User _id emitted by UsersList component
-         *  @returns  {null}
+
+        /** GET ONE CONNECTION
+         *  Triggered on 1st mount and on changes to the route
         */
-        fetchUser() {
+        fetchConversation() {
             const token = LS.getData('auth_token');
-            getOneProfile(token, this.$route.params.userId)
+            getOneConversation(token, this.$route.params.conversationId)
                 .then((doc) => {
-                    this.user = doc;
+                    this.conversation = doc;
                 })
                 .catch(err => new Error(err));
         }
 
     },
     mounted() {
-        this.fetchUser();
+        this.fetchConversation();
     }
 };
 </script>
 
 <style lang="css">
-.user-detail {
+.conversation-detail {
     flex: 1;
     margin: 0 3px 3px;
 }
 
-.user-detail textarea {
+.conversation-detail textarea {
     background: black;
     border: none;
     color: white;
@@ -60,9 +60,5 @@ export default {
     outline: none;
     overflow: auto;
     width: 100%;
-}
-
-.user-detail img {
-    max-width: 100%;
 }
 </style>

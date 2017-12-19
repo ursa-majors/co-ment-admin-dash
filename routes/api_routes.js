@@ -16,6 +16,7 @@ const profileCtrl      = require('../controllers/profile.ctrl');
 const postCtrl         = require('../controllers/post.ctrl');
 const connectionCtrl   = require('../controllers/connection.ctrl');
 const conversationCtrl = require('../controllers/conversation.ctrl');
+const logCtrl          = require('../controllers/log.ctrl');
 
 
 /* =========================== ROUTE MIDDLEWARE ============================ */
@@ -82,13 +83,23 @@ router.put('/connections/:id', connectionCtrl.updateConnection);
 
 
 // Get all conversations
-// Returns array JSON conversation objects
+// Returns array of JSON conversation objects
 router.get('/conversations', conversationCtrl.getConversations);
 
 
 // Get one conversation
 // Returns JSON conversation object
 router.get('/conversations/:id', conversationCtrl.getOneConversation);
+
+
+// Get all logs
+// Returns array of JSON log objects
+router.get('/logs', logCtrl.getLogs);
+
+
+// Get one log
+// Returns JSON log object
+router.get('/logs/:id', logCtrl.getOneLog);
 
 
 /* ================================ EXPORT ================================= */
