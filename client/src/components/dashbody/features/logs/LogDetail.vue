@@ -1,55 +1,55 @@
 <template lang="html">
-<div class="post-detail">
+<div class="log-detail">
     <textarea
         wrap="off"
         readonly="true"
-    >{{ JSON.stringify(post, null, 2) }}
+    >{{ JSON.stringify(log, null, 2) }}
     </textarea>
 </div>
 </template>
 
 <script>
-import { getOnePost } from '@/services/PostService';
-import LS             from '@/utils/localStorage';
+import { getOneLog } from '@/services/LogService';
+import LS            from '@/utils/localStorage';
 
 export default {
-    name: 'PostDetail',
+    name: 'LogDetail',
     data() {
         return {
-            post: {}
+            log: {}
         };
     },
     watch: {
-        $route: 'fetchPost'
+        $route: 'fetchLog'
     },
     methods: {
 
-        /** GET ONE POST
+        /** GET ONE LOG
          *  Triggered on 1st mount and on changes to the route
         */
-        fetchPost() {
+        fetchLog() {
             const token = LS.getData('auth_token');
-            getOnePost(token, this.$route.params.postId)
+            getOneLog(token, this.$route.params.logId)
                 .then((doc) => {
-                    this.post = doc;
+                    this.log = doc;
                 })
                 .catch(err => new Error(err));
         }
 
     },
     mounted() {
-        this.fetchPost();
+        this.fetchLog();
     }
 };
 </script>
 
 <style lang="css">
-.post-detail {
+.log-detail {
     flex: 1;
     margin: 0 3px 3px;
 }
 
-.post-detail textarea {
+.log-detail textarea {
     background: black;
     border: none;
     color: white;

@@ -18,13 +18,12 @@ const parseSKill = require('../utils/skills_parser');
 //
 function getProfiles(req, res) {
 
-    const proj = { username: 1, name: 1 };
-
     User.find({})
         .select('username name')
         .exec()
-        .then(profiles => res.status(200).json(profiles))
-        .catch(err => res.status(400).json({ message: err }));
+        .then( (profiles) => res.status(200).json(profiles) )
+        .catch( (err) => res.status(400).json(err) );
+
 }
 
 
@@ -42,8 +41,8 @@ function getOneProfile(req, res) {
     User.findById(target)
         .select('-signupKey -passwordResetKey -hash -salt -__v')
         .exec()
-        .then(profile => res.status(200).json(profile))
-        .catch(err => res.status(400).json({ message: err }));
+        .then( (profile) => res.status(200).json(profile) )
+        .catch( (err) => res.status(400).json(err) );
 
 }
 
@@ -74,65 +73,40 @@ function getOneProfile(req, res) {
 //
 function updateProfile(req, res) {
 
-    const target = {
-        _id      : req.params.id,
-        username : req.token.username
-    };
+    const target = { _id : req.params.id };
 
-    // kick off promise chain
-    new Promise( (resolve, reject) => {
+    // map enumerable req body properties to updates object
+    const updates = Object.assign({}, req.body);
 
-        // make sure the requesting user ID and target user ID match
-        if (target._id === req.token._id) {
-            resolve(target);
-        } else {
-            reject('Error: user ID mismatch.');
-        }
+    // parse skills array if update includes skills
+    if (updates.skills) {
+        updates.skills = (updates.skills).map( skill => parseSKill(skill) );
+    }
 
+    const options = { new: true };
+
+    User.findOneAndUpdate(target, updates, options)
+        .exec()
+        .then( user => {
+
+            if (!user) {
+
+                return res
+                    .status(404)
+                    .json({message: 'User not found!'});
+
+            } else {
+
+                return res
+                    .status(200)
+                    .json({
+                        message : 'User updated!',
+                        user    : user
+                    });
+
+            }
     })
-    .then( () => {
-
-        // map enumerable req body properties to updates object
-        const updates = Object.assign({}, req.body);
-
-        // parse skills array if update includes skills
-        if (updates.skills) {
-            updates.skills = (updates.skills).map( skill => parseSKill(skill) );
-        }
-
-        const options = {
-            new: true  // return updated document rather than the original
-        };
-
-        User.findOneAndUpdate(target, updates, options)
-            .exec()
-            .then( user => {
-
-                if (!user) {
-
-                    return res
-                        .status(404)
-                        .json({message: 'User not found!'});
-
-                } else {
-
-                    return res
-                        .status(200)
-                        .json({
-                            message : 'User updated!',
-                            user    : user
-                        });
-
-                }
-        });
-
-    })
-    .catch( err => {
-        console.log('Error!!!', err);
-        return res
-            .status(400)
-            .json({ message: err});
-    });
+    .catch( (err) => res.status(400).json(err) );
 
 }
 
@@ -148,17 +122,7 @@ function updateProfile(req, res) {
 //
 function deleteProfile(req, res) {
 
-    const targetUser = {
-        _id      : req.params.id,
-        username : req.token.username
-    };
-
-    // make sure the requesting user ID and target user ID match
-    if (targetUser._id !== req.token._id) {
-        return res
-            .status(400)
-            .json({ message: 'Error: user ID mismatch.'});
-    }
+    const targetUser = { _id : req.params.id };
 
     User.findOneAndRemove(targetUser)
         .exec()
@@ -173,8 +137,8 @@ function deleteProfile(req, res) {
             } else {
 
                 const postAuthor = {
-                    author_id : targetUser._id,
-                    author    : targetUser.username
+                    author_id : user._id,
+                    author    : user.username
                 };
 
                 const updates = {
@@ -186,14 +150,13 @@ function deleteProfile(req, res) {
                     multi     : true
                 };
 
-                // "delete" all posts from same author. Sets "deleted" to true,
-                // and "active" to false
+                // "delete" all posts from deleted author.
+                // Sets "deleted" to true and "active" to false.
                 Post.update(postAuthor, updates, options, (err, raw) => {
 
                     if (err) { throw err; }
 
                     else {
-                        console.log('The raw response from Mongo was ', raw);
 
                         return res
                             .status(200)
@@ -208,12 +171,7 @@ function deleteProfile(req, res) {
             }
 
         })
-        .catch( err => {
-            console.log('Error!!!', err);
-            return res
-                .status(400)
-                .json({ message: err});
-        });
+        .catch( (err) => res.status(400).json(err) );
 
 }
 

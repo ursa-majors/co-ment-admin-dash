@@ -7,8 +7,8 @@
 
 <script>
 import { getPosts } from '@/services/PostService';
-import LS         from '@/utils/localStorage';
-import PostsList  from './PostsList';
+import LS           from '@/utils/localStorage';
+import PostsList    from './PostsList';
 
 export default {
     name       : 'Posts',

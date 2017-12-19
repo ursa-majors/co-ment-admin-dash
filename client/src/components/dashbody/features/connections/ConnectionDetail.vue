@@ -1,55 +1,55 @@
 <template lang="html">
-<div class="post-detail">
+<div class="connection-detail">
     <textarea
         wrap="off"
         readonly="true"
-    >{{ JSON.stringify(post, null, 2) }}
+    >{{ JSON.stringify(connection, null, 2) }}
     </textarea>
 </div>
 </template>
 
 <script>
-import { getOnePost } from '@/services/PostService';
-import LS             from '@/utils/localStorage';
+import { getOneConnection } from '@/services/ConnectionService';
+import LS                   from '@/utils/localStorage';
 
 export default {
-    name: 'PostDetail',
+    name: 'ConnectionDetail',
     data() {
         return {
-            post: {}
+            connection: {}
         };
     },
     watch: {
-        $route: 'fetchPost'
+        $route: 'fetchConnection'
     },
     methods: {
 
-        /** GET ONE POST
+        /** GET ONE CONNECTION
          *  Triggered on 1st mount and on changes to the route
         */
-        fetchPost() {
+        fetchConnection() {
             const token = LS.getData('auth_token');
-            getOnePost(token, this.$route.params.postId)
+            getOneConnection(token, this.$route.params.connectionId)
                 .then((doc) => {
-                    this.post = doc;
+                    this.connection = doc;
                 })
                 .catch(err => new Error(err));
         }
 
     },
     mounted() {
-        this.fetchPost();
+        this.fetchConnection();
     }
 };
 </script>
 
 <style lang="css">
-.post-detail {
+.connection-detail {
     flex: 1;
     margin: 0 3px 3px;
 }
 
-.post-detail textarea {
+.connection-detail textarea {
     background: black;
     border: none;
     color: white;
