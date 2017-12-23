@@ -36,7 +36,7 @@ export default {
         /** CHECK IF BUTTON IS ACTIVE
         */
         isActive(link) {
-            return this.active === link;
+            return link === this.$store.state.activeFeature;
         },
 
         /** HANDLE LINK
