@@ -1,14 +1,15 @@
 <template lang="html">
-<div class="post-detail">
+<FeatureDetail>
     <textarea
         wrap="off"
         readonly="true"
     >{{ JSON.stringify(post, null, 2) }}
     </textarea>
-</div>
+</FeatureDetail>
 </template>
 
 <script>
+import FeatureDetail  from '@/components/dashbody/common/FeatureDetail';
 import { getOnePost } from '@/services/PostService';
 import LS             from '@/utils/localStorage';
 
@@ -39,26 +40,12 @@ export default {
     },
     mounted() {
         this.fetchPost();
+    },
+    components: {
+        FeatureDetail
     }
 };
 </script>
 
 <style lang="css">
-.post-detail {
-    flex: 1;
-    margin: 0 3px 3px;
-}
-
-.post-detail textarea {
-    background: black;
-    border: none;
-    color: white;
-    font-family: monospace;
-    font-size: 10px;
-    height: 100%;
-    resize: none;
-    outline: none;
-    overflow: auto;
-    width: 100%;
-}
 </style>
