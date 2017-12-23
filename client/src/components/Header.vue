@@ -1,13 +1,18 @@
 <template lang="html">
 <div id="Header">
-    <h1>co/ment admin dash</h1>
+    <h1>{{title}}</h1>
     <input id="dash-shell-header-search" type="text" placeholder="search">
 </div>
 </template>
 
 <script>
 export default {
-    name: 'DashHeader'
+    name     : 'DashHeader',
+    computed : {
+        title() {
+            return this.$store.state.activeFeature;
+        }
+    }
 };
 </script>
 
@@ -18,10 +23,15 @@ export default {
     color: #bbb;
     display: flex;
     font-style: italic;
+    height: 36px;
     justify-content: space-between;
     padding: .35em;
     padding-left: 40px;
     box-shadow: 1px 1px 8px #444;
+}
+
+#Header > h1 {
+    text-transform: capitalize;
 }
 
 input {
