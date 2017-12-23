@@ -45,8 +45,6 @@ export default {
          *  @returns   {null}
         */
         handleLink(link) {
-            // eslint-disable-next-line
-            console.log(this.$refs);
             this.active = link;
             this.$router.push({ path: `/dash/${link}` });
         },
