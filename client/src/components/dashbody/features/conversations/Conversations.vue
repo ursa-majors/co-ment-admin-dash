@@ -34,6 +34,7 @@ export default {
     },
     mounted() {
         this.getConversations();
+        this.$store.dispatch('setActiveFeature', 'conversations');
     }
 };
 </script>

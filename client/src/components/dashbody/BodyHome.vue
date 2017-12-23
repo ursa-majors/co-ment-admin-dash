@@ -6,7 +6,10 @@
 
 <script>
 export default {
-    name: 'BodyHome'
+    name: 'BodyHome',
+    mounted() {
+        this.$store.dispatch('setActiveFeature', 'home');
+    }
 };
 </script>
 
