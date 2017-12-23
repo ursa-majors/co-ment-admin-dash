@@ -1,18 +1,18 @@
 <template lang="html">
-    <FeatureList title="Users" :total="total">
-        <div class="card" v-for="(doc, index) in users">
-            <div @click="navigateTo({
-                    name: 'UserDetail',
-                    params: {
-                        userId: doc._id
-                    }
-                })">
-                <p>Username: {{doc.username}}</p>
-                <p>Name: {{doc.name || '{anon}'}}</p>
-                <p>_id: {{doc._id}}</p>
-            </div>
+<FeatureList :total="total">
+    <div class="card" v-for="(doc, index) in users">
+        <div @click="navigateTo({
+                name: 'UserDetail',
+                params: {
+                    userId: doc._id
+                }
+            })">
+            <p>Username: {{doc.username}}</p>
+            <p>Name: {{doc.name || '{anon}'}}</p>
+            <p>_id: {{doc._id}}</p>
         </div>
-    </FeatureList>
+    </div>
+</FeatureList>
 </template>
 
 <script>

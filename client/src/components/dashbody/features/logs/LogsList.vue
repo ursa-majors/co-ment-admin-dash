@@ -1,5 +1,5 @@
 <template lang="html">
-<FeatureList title="Logs" :total="total">
+<FeatureList :total="total">
     <div class="card" v-for="(doc, index) in logs">
         <div @click="navigateTo({
                 name: 'LogDetail',

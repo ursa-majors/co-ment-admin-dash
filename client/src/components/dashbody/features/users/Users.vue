@@ -34,6 +34,7 @@ export default {
     },
     mounted() {
         this.getUsers();
+        this.$store.dispatch('setActiveFeature', 'users');
     }
 };
 </script>

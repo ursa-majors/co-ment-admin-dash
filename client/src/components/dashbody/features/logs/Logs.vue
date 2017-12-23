@@ -34,6 +34,7 @@ export default {
     },
     mounted() {
         this.getLogs();
+        this.$store.dispatch('setActiveFeature', 'logs');
     }
 };
 </script>

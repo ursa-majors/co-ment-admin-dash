@@ -34,6 +34,7 @@ export default {
     },
     mounted() {
         this.getPosts();
+        this.$store.dispatch('setActiveFeature', 'posts');
     }
 };
 </script>
