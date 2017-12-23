@@ -1,6 +1,6 @@
 <template lang="html">
 <div class="users">
-    <UsersList v-bind:users="users" />
+    <UsersList :users="users" />
     <router-view/>
 </div>
 </template>
@@ -17,8 +17,7 @@ export default {
     },
     data() {
         return {
-            users : [],
-            user  : {}
+            users: []
         };
     },
     methods: {
