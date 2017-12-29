@@ -1,82 +1,97 @@
 <template lang="html">
-<div class="logs-list">
-    <div class="card" v-for="(doc, index) in logs">
-        <div @click="navigateTo({
-                name: 'LogDetail',
-                params: {
-                    logId: doc._id
-                }
-            })">
-            <p>Date: {{doc.createdAt}}</p>
-            <p>Category: {{doc.category}}</p>
-            <p>Action: {{doc.actionTaken}}</p>
-            <p>_id: {{doc._id}}</p>
+<div class="list-container">
+    <ListNav @gotopage="getLogs"
+        :numPages="numPages"
+        :count="count"
+        :total="total">
+    </ListNav>
+
+    <FeatureList :total="total">
+        <div class="card" v-for="(doc, index) in logs">
+            <div @click="navigateTo({
+                    name: 'LogDetail',
+                    params: {
+                        logId: doc._id
+                    }
+                })">
+                <p>Date: {{parseDate(doc.createdAt)}}</p>
+                <p>Category: {{doc.category}}</p>
+                <p>Action: {{doc.actionTaken}}</p>
+                <p>_id: {{doc._id}}</p>
+            </div>
         </div>
-    </div>
+    </FeatureList>
 </div>
 </template>
 
 <script>
-export default {
-    name    : 'LogsList',
-    props   : ['logs'],
-    methods : {
+import { getAllLogs } from '@/services/LogService';
+import LS             from '@/utils/localStorage';
+import ListNav        from '@/components/dashbody/common/ListNav';
+import FeatureList    from '@/components/dashbody/common/FeatureList';
+import parseDate      from '@/utils/parseDates';
 
-        /** HANDLE CARD CLICK
-        *  Triggers route to render log detail component
-        *  @param     {Object}   route   Destination route object
-        *  @returns   {null}
+export default {
+    name: 'LogsList',
+    data() {
+        return {
+            logs     : [],
+            total    : null,
+            numPages : null
+        };
+    },
+    computed: {
+        count() {
+            return this.logs.length;
+        }
+    },
+    methods: {
+
+        /** ROUTE NAVIGATION CLICK HANDLER
+         *  @param     {Object}   route   Destination route object
+         *  @returns   {null}
         */
         navigateTo(route) {
             this.$router.push(route);
-        }
+        },
 
+        getLogs(pageNum) {
+            const itemsPerPage = this.$store.state.itemsPerPage;
+            const token = LS.getData('auth_token');
+            const page  = pageNum || 1;
+            const sort  = this.$route.query.sort;
+            const skip  = (page - 1) * itemsPerPage;
+
+            // getAllLogs(token, sort, skip, limit)
+            getAllLogs(token, sort, skip, itemsPerPage)
+                .then(({ logs, total }) => {
+                    this.logs = logs;
+                    this.total = total;
+                    this.numPages = Math.ceil(total / itemsPerPage);
+                })
+                .catch(err => new Error(err));
+        },
+
+        parseDate
+
+    },
+    components: {
+        ListNav,
+        FeatureList
+    },
+    mounted() {
+        this.getLogs();
     }
 };
 </script>
 
 <style scoped lang="css">
-.logs-list {
-    box-sizing: border-box;
+.list-container {
     min-height: 0;
-    max-width: 50%;
+    max-width: 320px;
     flex: 1;
-    margin-right: .5em;
+    margin-right: .25em;
     overflow-y: auto;
     overflow-x: hidden;
-}
-
-.logs-list > div {
-    background: white;
-    border: 1px solid #a9a9a9;
-    margin: 0 2px .75em 0;
-    padding: .5em;
-    cursor: pointer;
-}
-
-.logs-list > div:last-child {
-    margin-bottom: 0;
-}
-
-.logs-list > div p {
-    color: black;
-    margin: .15em 0;
-    white-space: nowrap;
-    overflow-x: hidden;
-    text-overflow: ellipsis;
-}
-
-::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
-}
-
-::-webkit-scrollbar-thumb {
-    border-radius: 3px;
-    background: rgba(112,112,112,0.7);
-}
-
-::-webkit-scrollbar-corner {
-    display: none;
 }
 </style>

@@ -1,40 +1,20 @@
 <template lang="html">
 <div class="users">
-    <UsersList v-bind:users="users" />
+    <UsersList/>
     <router-view/>
 </div>
 </template>
 
 <script>
-import { getProfiles } from '@/services/ProfileService';
-import LS              from '@/utils/localStorage';
-import UsersList       from './UsersList';
+import UsersList from './UsersList';
 
 export default {
     name       : 'Users',
     components : {
         UsersList
     },
-    data() {
-        return {
-            users : [],
-            user  : {}
-        };
-    },
-    methods: {
-
-        getUsers() {
-            const token = LS.getData('auth_token');
-            getProfiles(token)
-                .then((docs) => {
-                    this.users = docs;
-                })
-                .catch(err => new Error(err));
-        }
-
-    },
     mounted() {
-        this.getUsers();
+        this.$store.dispatch('setActiveFeature', 'users');
     }
 };
 </script>

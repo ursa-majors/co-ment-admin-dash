@@ -1,14 +1,15 @@
 <template lang="html">
-<div class="user-detail">
+<FeatureDetail>
     <textarea
         wrap="off"
         readonly="true"
     >{{ JSON.stringify(user, null, 2) }}
     </textarea>
-</div>
+</FeatureDetail>
 </template>
 
 <script>
+import FeatureDetail     from '@/components/dashbody/common/FeatureDetail';
 import { getOneProfile } from '@/services/ProfileService';
 import LS                from '@/utils/localStorage';
 
@@ -39,30 +40,12 @@ export default {
     },
     mounted() {
         this.fetchUser();
+    },
+    components: {
+        FeatureDetail
     }
 };
 </script>
 
 <style lang="css">
-.user-detail {
-    flex: 1;
-    margin: 0 3px 3px;
-}
-
-.user-detail textarea {
-    background: black;
-    border: none;
-    color: white;
-    font-family: monospace;
-    font-size: 10px;
-    height: 100%;
-    resize: none;
-    outline: none;
-    overflow: auto;
-    width: 100%;
-}
-
-.user-detail img {
-    max-width: 100%;
-}
 </style>

@@ -1,16 +1,17 @@
 <template lang="html">
-<div class="conversation-detail">
+<FeatureDetail>
     <textarea
         wrap="off"
         readonly="true"
     >{{ JSON.stringify(conversation, null, 2) }}
     </textarea>
-</div>
+</FeatureDetail>
 </template>
 
 <script>
+import FeatureDetail          from '@/components/dashbody/common/FeatureDetail';
 import { getOneConversation } from '@/services/ConversationService';
-import LS                   from '@/utils/localStorage';
+import LS                     from '@/utils/localStorage';
 
 export default {
     name: 'ConversationDetail',
@@ -39,26 +40,12 @@ export default {
     },
     mounted() {
         this.fetchConversation();
+    },
+    components: {
+        FeatureDetail
     }
 };
 </script>
 
 <style lang="css">
-.conversation-detail {
-    flex: 1;
-    margin: 0 3px 3px;
-}
-
-.conversation-detail textarea {
-    background: black;
-    border: none;
-    color: white;
-    font-family: monospace;
-    font-size: 10px;
-    height: 100%;
-    resize: none;
-    outline: none;
-    overflow: auto;
-    width: 100%;
-}
 </style>

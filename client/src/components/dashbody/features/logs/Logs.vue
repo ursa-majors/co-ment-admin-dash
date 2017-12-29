@@ -1,39 +1,20 @@
 <template lang="html">
 <div class="logs">
-    <LogsList v-bind:logs="logs" />
+    <LogsList/>
     <router-view/>
 </div>
 </template>
 
 <script>
-import { getLogs } from '@/services/LogService';
-import LS          from '@/utils/localStorage';
-import LogsList    from './LogsList';
+import LogsList from './LogsList';
 
 export default {
     name       : 'Logs',
     components : {
         LogsList
     },
-    data() {
-        return {
-            logs: []
-        };
-    },
-    methods: {
-
-        getLogs() {
-            const token = LS.getData('auth_token');
-            getLogs(token)
-                .then((docs) => {
-                    this.logs = docs;
-                })
-                .catch(err => new Error(err));
-        }
-
-    },
     mounted() {
-        this.getLogs();
+        this.$store.dispatch('setActiveFeature', 'logs');
     }
 };
 </script>

@@ -6,101 +6,50 @@ const Message             = require('../models/message');
 const User                = require('../models/user');
 
 
-/* =============================== UTILITIES =============================== */
-
-/* Count unread messages where the user = 'recipient'
- * @param     [array]    collection   [array of elements we want to filter]
- * @param     [string]   user         [user's _id]
- * @returns   [number]                [number of unread messages]
-*/
-function countUnreads(collection, user) {
-    return collection.filter( el => {
-        return el.unread && el.recipient.toString() === user;
-    }).length;
-}
-
-
-/* Build 'getConversations' response object from conversations array
- * @params    [array]   convs   [array of conversation objects]
- * @returns   [object]          [formatted response]
- *
- *   {
- *      totalMessages : Number,
- *      totalUnreads  : Number,
- *      conversations : [
- *          {
- *              _id         : String,
- *              subject     : String,
- *              startDate   : String,
- *              qtyMessages : Number,
- *              qtyUnreads  : Number,
- *              latestMessage : {
- *                  _id       : String,
- *                  updatedAt : String,
- *                  createdAt : String,
- *                  body      : String,
- *                  author    : String,
- *                  recipient : String,
- *                  unread    : Boolean
- *              },
- *              participants : [
- *                  {
- *                      _id       : String,
- *                      username  : String,
- *                      name      : String,
- *                      avatarUrl : String
- *                  }...
- *              ]
- *          }
- *      ]
- *   }
-*/
-function formatConvData(convs, user) {
-
-    // count all messages
-    const totalMessages = convs.reduce( (sum, conv) => {
-        return sum + conv.messages.length;
-    }, 0);
-
-    // count unread messages where user is the recipient
-    const totalUnreads = convs.reduce( (sum, conv) => {
-        return sum + countUnreads(conv.messages, user);
-    }, 0);
-
-    // remap conversations to include metadata
-    const conversations = convs.map( c => {
-        return {
-            _id           : c._id,
-            subject       : c.subject,
-            qtyMessages   : c.messages.length,
-            qtyUnreads    : countUnreads(c.messages, user),
-            startDate     : c.startDate,
-            participants  : c.participants,
-            latestMessage : c.messages[c.messages.length - 1]
-        };
-    });
-
-    return { totalMessages, totalUnreads, conversations };
-}
-
-
 /* ============================ ROUTE HANDLERS ============================= */
 
 // GET CONVERSATIONS
-//   Example: GET >> /api/conversations
+//   Example: GET >> /api/conversations?
 //   Secured: yes, valid JWT required
+//   Expects:
+//     1) Optional query params:
+//        * sort  : String, default 'startDate'
+//        * skip  : String, default 0
+//        * limit : String, default 20
+
 //   Returns: array of JSON objects with conversation metadata
 //
 function getConversations(req, res) {
 
-    Conversation.find({})
-        .select('subject participants')
-        .populate({
-            path   : 'participants',
-            select : 'username'
-        })
+    const sort  = req.query.sort || 'startDate';
+    const skip  = parseInt(req.query.skip)  || 0;
+    const limit = parseInt(req.query.limit) || 20;
+
+    const pipeline = [
+        { $project : { subject: 1, participants: 1 }},
+        { $lookup  : { // returns an array
+            from         : 'users',
+            localField   : 'participants',
+            foreignField : '_id',
+            as           : 'participants'
+        }},
+        { $sort    : { startDate: 1 } },
+        { $group   : {
+            _id      : null,
+            total    : { $sum: 1 },        // count results
+            allConvs : { $push: '$$ROOT' } // keep array of all conversations
+        }},
+        { $project : {
+            total  : 1, // always return total count
+            convos : {
+                $slice : [ '$allConvs', skip, limit ] // filter
+            }
+        }}
+    ];
+
+    Conversation.aggregate(pipeline)
         .exec()
-        .then( (convs) => res.status(200).json(convs) )
+        .then( ([{total, convos}]) => res.status(200).json({total, convos}) )
         .catch( (err) => res.status(400).json(err) );
 }
 

@@ -1,5 +1,7 @@
 /*
    route handlers for user profile CRUD
+   Kudos to this gist for help with the aggregation pipelines
+   https://gist.github.com/sdgluck/ce8f9b8b9d64c9e25a1e71d53a5ba128#file-query-js
 */
 
 /* ================================= SETUP ================================= */
@@ -12,16 +14,40 @@ const parseSKill = require('../utils/skills_parser');
 /* ============================ ROUTE HANDLERS ============================= */
 
 // GET ALL PROFILES
-//   Example: GET >> /api/profiles
+//   Example: GET >> /api/profiles?
 //   Secured: yes, valid JWT required.
+//   Expects:
+//     1) Optional query params:
+//        * sort  : String, default 'username'
+//        * skip  : String, default 0
+//        * limit : String, default 20
 //   Returns: an array of user profile objects
 //
 function getProfiles(req, res) {
 
-    User.find({})
-        .select('username name')
+    const sort  = req.query.sort || 'username';
+    const skip  = parseInt(req.query.skip)  || 0;
+    const limit = parseInt(req.query.limit) || 20;
+
+    const pipeline = [
+        { $project : { username: 1, name: 1 } },
+        { $sort    : { username: 1 } },
+        { $group   : {
+            _id      : null,
+            total    : { $sum: 1 },        // count results
+            allUsers : { $push: '$$ROOT' } // keep array of all users
+        }},
+        { $project : {
+            total  : 1, // always return total count
+            users  : {
+                $slice : [ '$allUsers', skip, limit ] // filter
+            }
+        }}
+    ];
+
+    User.aggregate(pipeline)
         .exec()
-        .then( (profiles) => res.status(200).json(profiles) )
+        .then( ([{total, users}]) => res.status(200).json({total, users}) )
         .catch( (err) => res.status(400).json(err) );
 
 }

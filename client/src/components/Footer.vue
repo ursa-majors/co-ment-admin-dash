@@ -1,6 +1,6 @@
 <template lang="html">
 <footer>
-    <p>(c) 2017 - the Ursa Majors</p>
+    <p>co/ment admin dash - &copy; 2017 - the Ursa Majors</p>
 </footer>
 </template>
 

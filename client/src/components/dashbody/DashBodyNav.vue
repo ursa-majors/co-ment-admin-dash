@@ -36,7 +36,7 @@ export default {
         /** CHECK IF BUTTON IS ACTIVE
         */
         isActive(link) {
-            return this.active === link;
+            return link === this.$store.state.activeFeature;
         },
 
         /** HANDLE LINK
@@ -45,8 +45,6 @@ export default {
          *  @returns   {null}
         */
         handleLink(link) {
-            // eslint-disable-next-line
-            console.log(this.$refs);
             this.active = link;
             this.$router.push({ path: `/dash/${link}` });
         },
