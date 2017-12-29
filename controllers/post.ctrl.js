@@ -7,22 +7,53 @@ const User = require('../models/user');
 
 /* ============================ ROUTE HANDLERS ============================= */
 
-// GET POSTS
-//   Example: GET >> /api/posts
-//   Secured: yes, valid JWT required
-//   Returns: JSON array of 'post' objects on success.
+// GET ALL POSTS
+//   Example: GET >> /api/posts?
+//   Secured: yes, valid JWT required.
+//   Expects:
+//     1) Optional query params:
+//        * sort  : String, default 'username'
+//        * skip  : String, default 0
+//        * limit : String, default 20
+//   Returns: an array of post objects
 //
 function getPosts(req, res) {
 
-    Post.find({})
-        .select('author title')
-        .populate({
-            path   : 'author',
-            select: 'username'
-        })
+    const sort  = req.query.sort || 'title';
+    const skip  = parseInt(req.query.skip)  || 0;
+    const limit = parseInt(req.query.limit) || 20;
+
+    const pipeline = [
+        { $lookup  : { // returns an array w/1 element in this case
+            from         : 'users',
+            localField   : 'author',
+            foreignField : '_id',
+            as           : 'authors'
+        }},
+        { $project : {
+            author: { $arrayElemAt: [ '$authors', 0 ] }, // get 1st element
+            title: 1,
+            createdAt: 1
+        }},
+        { $sort    : { createdAt: 1 } },
+        { $group   : {
+            _id      : null,
+            total    : { $sum: 1 },        // count results
+            allPosts : { $push: '$$ROOT' } // keep array of all posts
+        }},
+        { $project : {
+            total  : 1, // always return total count
+            posts  : {
+                $slice : [ '$allPosts', skip, limit ] // filter
+            }
+        }}
+    ];
+
+    Post.aggregate(pipeline)
         .exec()
-        .then( (posts) => res.status(200).json(posts) )
+        .then( ([{total, posts}]) => res.status(200).json({total, posts}) )
         .catch( (err) => res.status(400).json(err) );
+
 }
 
 
