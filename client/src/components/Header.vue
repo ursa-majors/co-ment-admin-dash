@@ -32,6 +32,7 @@ export default {
 
 #Header > h1 {
     text-transform: capitalize;
+    line-height: 1em;
 }
 
 input {
