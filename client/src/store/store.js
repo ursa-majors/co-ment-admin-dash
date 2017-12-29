@@ -7,6 +7,7 @@ export default new Vuex.Store({
     strict  : true,
     plugins : [],
     state   : {
+        itemsPerPage   : 20,
         activeFeature  : null,
         token          : null,
         user           : null,

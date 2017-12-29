@@ -7,16 +7,45 @@ const Connection = require('../models/connection');
 /* ============================ ROUTE HANDLERS ============================= */
 
 // GET ALL CONNECTIONS
-//   Example: GET >> /api/connections
+//   Example: GET >> /api/connections?
 //   Secured: yes, valid JWT required
+//   Expects:
+//     1) Optional query params:
+//        * sort  : String, default 'dateStarted'
+//        * skip  : String, default 0
+//        * limit : String, default 20
 //   Returns: array of connections on success
 //
 function getConnections(req, res) {
 
-    Connection.find({})
-        .select('-__v')
+    const sort  = req.query.sort || 'dateStarted';
+    const skip  = parseInt(req.query.skip)  || 0;
+    const limit = parseInt(req.query.limit) || 20;
+
+    const pipeline = [
+        { $project : {
+            dateStarted : 1,
+            initiator   : 1,
+            mentee      : 1,
+            mentor      : 1
+        }},
+        { $sort    : { dateStarted: 1 } },
+        { $group   : {
+            _id      : null,
+            total    : { $sum: 1 },        // count results
+            allConns : { $push: '$$ROOT' } // keep array of all connections
+        }},
+        { $project : {
+            total  : 1, // always return total count
+            conns  : {
+                $slice : [ '$allConns', skip, limit ] // filter
+            }
+        }}
+    ];
+
+    Connection.aggregate(pipeline)
         .exec()
-        .then( (conns) => res.status(200).json(conns) )
+        .then( ([{total, conns}]) => res.status(200).json({total, conns}) )
         .catch( (err) => res.status(400).json(err) );
 
 }

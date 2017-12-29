@@ -1,6 +1,5 @@
 <template lang="html">
 <div class="list">
-    <p>Showing {{limited}} of {{total}} total records</p>
     <slot>
         <!-- feature list contents -->
     </slot>
@@ -9,33 +8,15 @@
 
 <script>
 export default {
-    name  : 'FeatureList',
-    props : ['total', 'limited']
+    name: 'FeatureList'
 };
 </script>
 
 <style scoped lang="css">
-.list {
-    min-height: 0;
-    max-width: 320px;
-    flex: 1;
-    margin-right: .5em;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-.list > p {
-    box-sizing: border-box;
-    color: #444;
-    display: block;
-    margin-bottom: 6px;
-    text-align: center;
-}
-
 .list > div {
     background: white;
     border: 1px solid #a9a9a9;
-    margin: 0 2px .75em 0;
+    margin: 0 .5em .75em 0;
     padding: .5em;
     cursor: pointer;
 }
