@@ -9,14 +9,30 @@ const Log = require('../models/log');
 // GET LOGS
 //   Example: GET >> /api/logs
 //   Secured: yes, valid JWT required
+//     1) Optional query params:
+//        * sort  : String, default 'username'
+//        * skip  : String, default 0
+//        * limit : String, default 20
 //   Returns: array of JSON log objects
 //
 function getLogs(req, res) {
 
+    const sort  = req.query.sort || 'createdAt';
+    const skip  = parseInt(req.query.skip)  || 0;
+    const limit = parseInt(req.query.limit) || 20;
+
     Log.find({})
         .select('-__v')
+        .sort({ sort : 1 })
+        .skip(skip)
+        .limit(limit)
         .exec()
-        .then( data => res.status(200).json(data) )
+        .then( data => {
+            return res.status(200).json({
+                total : data.length,
+                logs  : data
+            })
+        })
         .catch( err => res.status(400).json(err) );
 
 }
